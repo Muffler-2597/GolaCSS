@@ -1,5 +1,7 @@
 # GolaCSS
 
+![배너](shots/banner.png)
+
 Unity 게임 메뉴 UI를 웹에서 그대로 쓰는 키트. 빌드 없음, 의존성 없음.
 
 ```html
