@@ -2,7 +2,8 @@
 
 ![배너](shots/banner.png)
 
-Unity 게임 메뉴 UI를 웹에서 그대로 쓰는 키트. 빌드 없음, 의존성 없음.
+[GolaGolaSimulator](https://github.com/Appie-1019/GolaGolaSimulator)라는 Unity 게임 메뉴 UI를 웹에서 그대로 쓰는 키트. 빌드 없음, 의존성 없음.
+당신의 웹 페이지를 더 빵탕하게 만들어 봐요!
 
 ```html
 <link rel="stylesheet" href="gola.css">
