@@ -5,18 +5,18 @@
 :root { --gola-bg: #787878; --gola-content: #505050; --gola-accent: #FF8000; --gola-on: #00FF00; --gola-off: #FF0000; --gola-skin-on: #AE6E47; --gola-skin-off: #5191B8; --gola-ink: #000; --gola-paper: #FFF; --gola-track: #1E1E1E; --gola-handle: #C8C8C8; --gola-input-ink: #323232; --gola-log-bg: #898989; --gola-gold: #FFD700; --gola-font: 'D2Coding', monospace; --skew: skewX(-19.29deg); }
 /* 리셋: 전역 400·선택금지·네모반듯 (원본 전역 규칙). */
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--gola-font) !important; font-weight: 400 !important; user-select: none; -webkit-tap-highlight-color: transparent; }
+.gola-value, .gola-hex, .gola-input, .gola-textarea, .gola-modal-log, .gola-select { user-select: text; } /* 입력·값·로그·셀렉트 선택 허용 (전역 금지는 유지) */
 button, .gola-btn, .gola-switchbox, .gola-arrow, .gola-modal-btn, .gola-restart, .gola-value, .gola-hex, .gola-input { border-radius: 0; }
-button:hover:not(:disabled) { opacity: 1 !important; }
+button:hover:not(:disabled), .gola-btn:hover:not(:disabled), .gola-arrow:hover:not(:disabled), .gola-modal-btn:hover:not(:disabled) { opacity: 1 !important; } /* hover opacity 단일 규칙 (:9+:13 통합) */
 html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeSpeed; overflow-x: hidden; overflow-x: clip; }
 /* 버튼 160x50 검정테7 흰면 24px — Main Version/Credit @f3535eb, Transition None이라 active·hover 변화 없음. */
 .gola-btn { width: 160px; height: 50px; background: var(--gola-paper); color: var(--gola-ink); border: 7px solid var(--gola-ink); padding: 0; font-size: 24px; line-height: 1; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: none; }
-.gola-btn:hover, .gola-arrow:hover, .gola-modal-btn:hover { opacity: 1; }
 .gola-btn--sm { width: 120px; height: 40px; border-width: 5px; font-size: 20px; }
 .gola-btn--apply { width: 100px; height: 40px; font-size: 24px; } /* Skin 적용 버튼 (Transition None) */
 .gola-btn:disabled, .gola-modal-btn:disabled, .gola-restart:disabled { background: rgba(200,200,200,.502); opacity: 1; cursor: not-allowed; transition: background-color .1s linear; } /* Main.unity m_DisabledColor=(0.7843,0.7843,0.7843,0.502) 배경 틴트만 — 텍스트색 rgba(50,50,50,.85) 발명 삭제, m_FadeDuration 0.1 복원 */
 /* 누름효과 opt-in: 원본 ButonPressAnimation 부착 0건 데드코드라 기본 미적용, 쓸 때만 .gola-press (+gola.js가 클릭 시 .gola-pressed 토글). */
 .gola-press { transition: transform .15s ease-out; }
-/* JS: 클릭 시 .gola-pressed 추가 후 0.15s 뒤 제거 (원본 pressedScale 0.6 축소→복원 0.15s+0.15s). */
+/* JS: 클릭 시 .gola-pressed 추가 후 0.30s 뒤 제거 (축소 0.15s+복원 0.15s 합 포크, gola.js setTimeout 300). */
 .gola-press.gola-pressed { transform: scale(.6); }
 /* 모달버튼 60x60 테7 50px ×◀▶ — Version Info Panel @f3535eb, Transition None. */
 .gola-modal-btn { width: 60px; height: 60px; background: var(--gola-paper); color: var(--gola-ink); border: 7px solid var(--gola-ink); padding: 0; font-size: 50px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: none; }
@@ -25,10 +25,11 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 .gola-modal-btn.next { position: absolute; top: 265px; right: 20px; }
 /* 재시작 200x100 검정테7 흰면 55px — FlappieGola RestartButton @f3535eb, 버튼 22개 중 유일한 Transition 1=ColorTint라 hover만 0.1s 틴트. */
 .gola-restart { width: 200px; height: 100px; background: var(--gola-paper); color: var(--gola-ink); border: 7px solid var(--gola-ink); padding: 0; font-size: 55px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: background-color .1s linear; }
-.gola-restart:hover:not(:disabled) { background: #D9D9D9; opacity: 1; }
-/* 스위치박스 280x56 테8 32px 행래퍼 포함 — Main SwitchBox @f3535eb. */
+.gola-restart:hover:not(:disabled) { background: #F5F5F5; opacity: 1; } /* m_HighlightedColor 0.9607843 → 245 → #F5F5F5 */
+/* 스위치박스 280x56 테8 32px 행래퍼 포함 — 원본 350x70의 0.8, TypeGola 계승 (Main SwitchBox @f3535eb). */
 .gola-switchbox { width: 280px; height: 56px; background: var(--gola-paper); color: var(--gola-ink); border: 8px solid var(--gola-ink); font-size: 32px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; white-space: nowrap; }
 .gola-switchbox-row { display: flex; align-items: center; justify-content: center; gap: 16px; height: 70px; margin-bottom: 27px; }
+@media screen and (max-width: 520px) { .gola-switchbox-row { flex-wrap: wrap; height: auto; } .gola-switchbox { flex: none; } } /* 좁은폭 뭉개짐 가드: 280+70+70+gap32=452>375라 wrap+수축금지 (포크) */
 /* 화살표 70x70 투명 히트영역 — SwitchBox Prev/Next stretch 알파0 @f3535eb. */
 .gola-arrow { width: 70px; height: 70px; background: transparent; border: none; padding: 0; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: none; }
 .gola-arrow svg { width: 70px; height: 70px; display: block; }
@@ -39,8 +40,8 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 .gola-check:checked + .gola-switch { background: var(--gola-on); }
 .gola-check:checked + .gola-switch .gola-knob { left: 42.5px; }
 /* 포커스 링 기본 제공 (접근성 유지): 체크박스가 클립 숨김 상태에서도 키보드 포커스를 받으면 스위치에 링. 링이 싫으면 조상에 .gola-no-ring. */
-.gola-check:focus-visible + .gola-switch, .gola-check:focus-visible + .gola-imgtoggle, .gola-arrow:focus-visible, .gola-btn:focus-visible, .gola-modal-btn:focus-visible, .gola-restart:focus-visible { outline: 3px solid var(--gola-accent); outline-offset: 2px; }
-.gola-no-ring .gola-check:focus-visible + .gola-switch, .gola-no-ring .gola-check:focus-visible + .gola-imgtoggle, .gola-no-ring .gola-arrow:focus-visible, .gola-no-ring .gola-btn:focus-visible, .gola-no-ring .gola-modal-btn:focus-visible, .gola-no-ring .gola-restart:focus-visible { outline: none; }
+.gola-check:focus-visible + .gola-switch, .gola-check:focus-visible + .gola-imgtoggle, .gola-arrow:focus-visible, .gola-btn:focus-visible, .gola-modal-btn:focus-visible, .gola-restart:focus-visible, .gola-door:focus-visible, .gola-select:focus-visible, .gola-textarea:focus-visible, .gola-radio:focus-visible, .gola-slider:focus-visible, .gola-value:focus-visible, .gola-hex:focus-visible, .gola-input:focus-visible { outline: 3px solid var(--gola-accent); outline-offset: 2px; }
+.gola-no-ring .gola-check:focus-visible + .gola-switch, .gola-no-ring .gola-check:focus-visible + .gola-imgtoggle, .gola-no-ring .gola-arrow:focus-visible, .gola-no-ring .gola-btn:focus-visible, .gola-no-ring .gola-modal-btn:focus-visible, .gola-no-ring .gola-restart:focus-visible, .gola-no-ring .gola-door:focus-visible, .gola-no-ring .gola-select:focus-visible, .gola-no-ring .gola-textarea:focus-visible, .gola-no-ring .gola-radio:focus-visible, .gola-no-ring .gola-slider:focus-visible, .gola-no-ring .gola-value:focus-visible, .gola-no-ring .gola-hex:focus-visible, .gola-no-ring .gola-input:focus-visible { outline: none; }
 /* 스킨토글 갈색계 변형 — 인스펙터 enable(0.68,0.43,0.28)/disable(0.32,0.57,0.72) @f3535eb. */
 .gola-switch--skin { background: var(--gola-skin-off); }
 .gola-check:checked + .gola-switch--skin { background: var(--gola-skin-on); }
@@ -56,7 +57,7 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 .gola-imgtoggle { display: inline-block; width: 70px; height: 40px; transition: background-color .2s, color .2s; cursor: pointer; }
 .gola-imgtoggle img { display: block; width: 100%; height: 100%; object-fit: contain; }
 /* 슬라이더 트랙 400x15 핸들 20x30 — Slider rawPercent 스냅없음 handleX·fill 매핑 @f3535eb. */
-.gola-slider { -webkit-appearance: none; appearance: none; flex: none; width: 400px; max-width: 100%; height: 15px; background: var(--gola-track); cursor: pointer; margin: 0; --fill: #FF0000; --p: 1; }
+.gola-slider { -webkit-appearance: none; appearance: none; flex: none; width: 400px; max-width: 100%; height: 15px; background: var(--gola-track); cursor: pointer; margin: 0; --fill: #FFF; --p: 1; } /* bare 기본 흰색 (볼륨이 기본 케이스, 클래스리스와 통일) */
 .gola-slider[data-ch="r"] { --fill: #FF0000; }
 .gola-slider[data-ch="g"] { --fill: #00FF00; }
 .gola-slider[data-ch="b"] { --fill: #0000FF; }
@@ -72,6 +73,7 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 .gola-slider-row.rgb { gap: 55px; max-width: 700px; margin-left: auto; margin-right: auto; } /* RGB행 gap 55 원복: 오버플로는 트랙 수축(L71 min-width:0)으로 해소, 스펙값은 손대지 않음 */
 .gola-slider-row.rgb .gola-slider { flex: 1 1 auto; width: auto; min-width: 0; max-width: 400px; } /* 원본 트랙 400 유지, 좁은 칸에선 수축 (입력 100px 고정 유지) */
 .gola-slider-row.lead-rgb { margin-top: 10px; }
+@media screen and (max-width: 700px) { .gola-slider-row:not(.rgb) { flex-wrap: wrap; } .gola-slider-row:not(.rgb) .gola-slider { flex: 1 1 160px; width: auto; min-width: 0; } } /* 비-RGB행 좁은폭 오버플로 해소: 트랙 수축+감싸기 (RGB행 L72-73 패턴 승격) */
 .gola-slider-letter { font-size: 50px; width: 50px; text-align: center; }
 .gola-slider-letter.vol { font-size: 40px; width: 130px; text-align: right; color: var(--gola-paper); }
 /* 볼륨표기 정수(CeilToInt)+% — SliderValueText prefix 빈+suffix % @f3535eb, 소리 0.05 단위. */
@@ -79,15 +81,15 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 /* 입력란 100x50 흰면 25px 좌측 — RGB값·HEX 공용 @f3535eb. */
 .gola-value, .gola-hex { display: block; width: 100px; height: 50px; background: var(--gola-paper); color: var(--gola-input-ink); border: none; font-size: 25px; line-height: 50px; text-align: left; padding: 0 0 0 10px; outline: none; flex-shrink: 0; caret-color: var(--gola-input-ink); }
 .gola-value::selection, .gola-hex::selection, .gola-input::selection { background: rgba(168,206,255,.75); }
-.gola-value::placeholder, .gola-hex::placeholder { color: rgba(50,50,50,.5); font-size: 25px; font-style: italic; }
-.gola-value:focus, .gola-hex:focus, .gola-input:focus { outline: none; }
+.gola-value::placeholder, .gola-hex::placeholder { color: rgba(50,50,50,.5); font-size: 25px; }
+.gola-value:focus:not(:focus-visible), .gola-hex:focus:not(:focus-visible), .gola-input:focus:not(:focus-visible) { outline: none; } /* 마우스 포커스만 링 제거, 키보드는 위 :focus-visible 링 유지. */
 .gola-hex.wide { width: 110px; }
 .gola-color-preview { max-width: 660px; height: 40px; background: #FFF; border: 5px solid #000; margin: 10px auto 20px; }
 .gola-hex-row { display: flex; align-items: center; justify-content: flex-end; gap: 10px; max-width: 700px; margin: 20px auto; padding-right: 20px; }
 .gola-hex-label { color: var(--gola-paper); font-size: 50px; line-height: 1; width: 90px; height: 50px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 /* 닉네임란 350x50 힌트중 — Main Nickname input Limit16 SingleLine @f3535eb. */
 .gola-input { display: block; width: 350px; max-width: 100%; height: 50px; background: var(--gola-paper); color: var(--gola-input-ink); border: none; font-size: 25px; line-height: 50px; text-align: left; padding: 0 0 0 10px; outline: none; caret-color: var(--gola-input-ink); }
-.gola-input::placeholder { color: rgba(50,50,50,.5); font-size: 25px; font-style: italic; text-align: center; }
+.gola-input::placeholder { color: rgba(50,50,50,.5); font-size: 25px; text-align: center; }
 /* 타이포: 이탤릭 금지 skewX(-19.29deg)만 — TMP italicStyle 35 전단 @f3535eb. */
 .gola-sec-title, .gola-skew { font-style: normal; transform: var(--skew); transform-origin: 50% 100%; }
 .gola-title { color: var(--gola-paper); font-size: 120px; line-height: 1; text-align: center; display: flex; align-items: center; justify-content: center; }
@@ -96,12 +98,18 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 .gola-text-skew { display: inline-block; font-style: normal; transform: skewX(-19.29deg); transform-origin: 50% 100%; } /* 박스 안 글자만 기울임 (스위치박스 모드문구) */
 .gola-intro-head { color: var(--gola-accent); font-size: 150px; line-height: 1; text-align: center; margin-bottom: 32px; } /* TypeGola #intro-head 150px + mb32 */
 .gola-intro-body { color: var(--gola-paper); font-size: 30px; line-height: 1.9; text-align: center; max-width: min(780px,100%); min-height: 200px; margin: 0 auto; white-space: pre-line; } /* TypeGola #intro-body 30px·1.9 제약 4종 그대로 */
-.gola-modal-title { color: var(--gola-ink); font-size: clamp(40px, 12vw, 100px); white-space: nowrap; } /* 줄바꿈 금지 유지, 축소는 CSS clamp로만 (JS zoom 미사용). 솔직히 400px 미만 초좁폭에선 삐져나갈 수 있음. */
-.gola-modal-ver { color: var(--gola-accent); font-size: 35px; }
+.gola-modal-title { color: var(--gola-ink); font-size: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; min-width: 0; } /* 원본 v-title 100px 고정, 좁은 칸은 JS golaFitModal이 title에만 zoom (head 전체 아님) — clamp 병행 시 이중 축소라 제거. 초좁폭 삐져나감은 말줄임으로 처리. */
+.gola-modal-ver { color: var(--gola-accent); font-size: 35px; margin-top: 4px; } /* 원본색 유지: 흰 배경 위 주황(#FF8000) 35px는 약 2.5:1로 WCAG AA-large 3:1 미달 — 접근성 잔류 갭, 고대비 필요 시 아래 opt-in 사용. */
+.gola-high-contrast .gola-modal-ver { color: #7A3E00; font-weight: 700 !important; text-decoration: underline; } /* opt-in 고대비: 흰 배경 대비 약 8:1 + 비색 단서(굵기·밑줄). 색상은 원본이 아니라 명시적 선택. */
+.gola-high-contrast .gola-desc { color: #FFF; font-weight: 700 !important; text-decoration: underline; } /* opt-in 고대비: #787878 위 흰색 약 4.4:1 (원본 #FF8000 1.75:1 미달) + 비색 단서. */
+.gola-high-contrast .gola-label { color: #FFF; font-weight: 700 !important; text-decoration: underline; } /* opt-in 고대비: 미체크 적색(#FF0000 on #505050 2.02:1 미달) → 흰색 약 7.5:1. */
+.gola-high-contrast .gola-check:checked ~ .gola-label { color: #FFF; font-weight: 700 !important; text-decoration: none; } /* 체크 상태는 밑줄 제거로 미체크(밑줄)와 비색 구분, 색상은 흰색 유지. */
+.gola-high-contrast .gola-label--skin { color: #FFF; font-weight: 700 !important; text-decoration: underline; } /* opt-in 고대비: 스킨 미체크(#5191B8 on #505050 2.34:1 미달) → 흰색. */
+.gola-high-contrast .gola-check:checked ~ .gola-label--skin { color: #FFF; font-weight: 700 !important; text-decoration: none; } /* 스킨 체크 상태도 흰색 + 밑줄 제거로 구분. */
 .gola-modal-v-dev { color: #000; font-size: 35px; margin-top: 10px; white-space: pre-line; } /* TypeGola #modal-head .v-dev 35px·#000·mt10·pre-line = Main.unity m_fontSize 35 */
 .gola-credit-title { color: var(--gola-paper); font-size: 80px; }
 .gola-credit-desc { color: var(--gola-paper); font-size: 40px; }
-.gola-bd-g { display: inline-block; font-size: 44px; line-height: 1; font-style: normal; transform: skewX(-19.29deg); transform-origin: 50% 50%; will-change: transform, opacity; }
+.gola-bd-g { display: inline-block; font-size: inherit; line-height: 1; font-style: normal; transform: skewX(-19.29deg); transform-origin: 50% 50%; will-change: transform, opacity; } /* 글리프 크기는 박스(.gola-say) font-size 상속 — JS가 박스에 textSize*11 기록(기본 44), 고정 44px 직접 규칙은 상속을 깨서 textSize 연동을 막았음 */
 /* STF 정적 소프트룩: SDF 근사 antialiased+optimizeSpeed+kerning none — UIJiggling 부착 0건이라 기본 정지. */
 .gola-stf { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeSpeed; font-kerning: none; }
 /* 지터 opt-in: steps(2) 뚝딱 움직임 — <span class="gola-stf gola-stf--jiggle"> 한 줄이면 끝. */
@@ -111,7 +119,7 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 .gola-stf--soft { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeSpeed; font-kerning: none; animation: gola-stf-jitter 1.2s steps(2) infinite; }
 @keyframes gola-stf-jitter { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
 @keyframes gola-stf-jitter-skew { 0%, 100% { transform: var(--skew) translateY(0); } 50% { transform: var(--skew) translateY(-1px); } }
-@media (prefers-reduced-motion: reduce) { .gola-stf--jiggle, .gola-stf--soft { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .gola-stf--jiggle, .gola-stf--soft, .gola-toast { animation: none; } }
 /* 패널 전체 #787878 내용 #505050 페이드 0.2s — MenuPanelToggle DOFade @f3535eb. */
 .gola-panel { position: fixed; inset: 0; background: var(--gola-bg); z-index: 50; visibility: hidden; opacity: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; -ms-overflow-style: none; transition: opacity .2s linear, visibility .2s; }
 .gola-panel::-webkit-scrollbar { display: none; }
@@ -152,28 +160,32 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 /* 토스트 700x50 36px 자동맞춤 0~36 ON — Toast Messege.prefab @f3535eb (정렬 H1=좌/V512=중). */
 .gola-toasts { position: fixed; left: 20px; top: 200px; z-index: 999; display: flex; flex-direction: column; align-items: flex-start; pointer-events: none; }
 .gola-toasts--inline { position: static; }
-.gola-toast { background: rgba(0,0,0,.588); color: var(--gola-paper); font-size: 36px; line-height: 1; text-align: left; white-space: normal; overflow-wrap: anywhere; word-break: break-word; width: 700px; max-width: calc(100vw - 40px); min-height: 50px; display: flex; align-items: center; justify-content: flex-start; padding: 0 5px; opacity: 0; transform: translateX(-730px); transition: opacity .2s ease-out, transform .2s ease-out, margin-top .2s ease-out; } /* 포크 선언: 원본 재현이 아니라 X축 전용 퇴장·등장으로 갈아탔음. Y 복원 요구 3건은 사용자 X축 지시 때문에 기각. */
+.gola-toast { background: rgba(0,0,0,.588); color: var(--gola-paper); font-size: 36px; line-height: 1; text-align: left; white-space: normal; overflow-wrap: anywhere; word-break: break-word; width: 700px; max-width: calc(100vw - 40px); min-height: 50px; display: flex; align-items: center; justify-content: flex-start; padding: 0 5px; opacity: 0; transform: translateX(-730px); transition: opacity .2s ease-out, transform .2s ease-out, margin-top .2s ease-out; } /* 포크 선언: 원본 재현이 아니라 X축 전용 퇴장·등장 (사용자 결정). */
 /* 색·강제: yellow 튜토리얼·gold 진행/성공·red 차단/실패 force — ToastUIManager·SkinSetting @f3535eb. */
 .gola-toast--yellow { color: #FFFF00; }
 .gola-toast--gold { color: var(--gola-gold); }
 .gola-toast--red { color: var(--gola-off); }
 .gola-toast.show { opacity: 1; transform: translateX(0); }
 .gola-toast.dying { opacity: 0; margin-top: 0 !important; transform: translateX(-150px); } /* 퇴장도 X축만 (위 포크 선언과 같은 이유) */
+.gola-toast.gola-toast--stacked { width: 110px; height: 30px; min-height: 0; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* 스택 축소체: FirstDisplacementSizeDelta(110,30) 절대값·폰트 16 (ToastUI.cs Stack 대응). 4자+... 절단은 JS textContent 몫이라 CSS는 말줄임으로 근사. height 고정으로 원본 절대크기 재현 (min-height 성장 포크 해소). */
 /* (삭제: .show+.show 인접 마진 — JS 스택 기록과 이중 적용·var 미기록이라 제거, 간격 55/35는 gola.js가 전부 맡음) */
-@media screen and (max-width: 599px) { .gola-toasts { left: 10px; top: 120px; } .gola-toast { font-size: 18px; max-width: min(90vw, 420px); } } /* 모바일 토스트 */
+@media screen and (max-width: 799px) { .gola-toast:not(.gola-toast--stacked) { font-size: max(14px, 4.5vw); } } /* 799 이하 단일 선언: 원본 toast.ts max(14,round(36*w/800)) 연속식 (36/800=4.5vw, 반올림차 <0.5px) — 스택축소체(16px) 제외. */
+@media screen and (max-width: 599px) { .gola-toasts { left: 10px; top: 120px; } .gola-toast:not(.gola-toast--stacked) { max-width: min(90vw, 420px); padding: 2px 14px; } } /* 599 이하 컨테이너 위치+여백만 잔류 (폰트 선언은 위 799 블록과 공유) */
+/* 모션 민감: 토스트 진입·퇴장 슬라이드 정지 — transition을 끊어 opacity 즉시 전환으로, 퇴장은 제자리에서 사라짐. */
+@media (prefers-reduced-motion: reduce) { .gola-toasts .gola-toast { transition: none; } .gola-toasts .gola-toast.dying { transform: none; } .gola-panel, .gola-switch, .gola-knob, .gola-label, .gola-imgtoggle, .gola-press, .gola-restart, .gola-say { transition: none; } }
 /* 모달 풀스크린 흰 로그 #898989 36px — Version Info Panel @f3535eb. */
 .gola-modal { position: fixed; inset: 0; background: #FFF; z-index: 80; display: none; flex-direction: column; }
 .gola-modal.open { display: flex; }
 .gola-modal--inline { position: static; display: flex; min-height: 420px; }
-.gola-modal-head { position: relative; padding: 20px 10px 10px; flex-shrink: 0; min-width: 0; overflow: hidden; } /* 좁은 칸 삐져나감 방지 (clamp 기준, JS zoom 미사용) */
-.gola-modal-title { overflow-wrap: anywhere; min-width: 0; } /* clamp로만 축소. 400px 미만 초좁폭에선 삐져나갈 수 있음. */
+.gola-modal-head { position: relative; padding: 20px 10px 10px; flex-shrink: 0; min-width: 0; overflow: hidden; } /* 좁은 칸은 JS golaFitModal이 title에만 zoom (head 전체 아님, title 100px 고정과 일원화) */
+@media screen and (max-width: 600px) { .gola-modal-head { display: flex; flex-wrap: wrap; gap: 8px; overflow: visible; } .gola-modal-btn.close, .gola-modal-btn.prev, .gola-modal-btn.next { position: static; } } /* 좁은폭 긴 타이틀+절대버튼 겹침 가드 (코어 제공, 페이지 오버라이드 대체) */
 .gola-modal-log { background: var(--gola-log-bg); color: var(--gola-paper); flex: 1; overflow-y: auto; padding: 26px 40px; font-size: 36px; line-height: 1.16; text-align: left; }
 @media screen and (max-width: 700px) { .gola-modal-log { padding: 16px 20px; } } /* 375 실측 칸 내부 48 오버플로 해소 */
 /* 로딩 검정 70/40 크레딧힌트 우측 — DataLoadScene @f3535eb. */
 .gola-loading { background: #000; color: var(--gola-paper); text-align: center; padding: 40px; }
 .gola-loading-title { font-size: 70px; margin-bottom: 24px; }
-.gola-loading-info { font-size: 40px; line-height: 1.8; }
-.gola-credit-hint { text-align: right; color: rgba(53,53,53,.502); font-size: 20px; }
+.gola-loading-info { font-size: 40px; line-height: 1.8; max-width: 700px; margin: 0 auto; white-space: pre-line; }
+.gola-credit-hint { position: fixed; right: 5px; bottom: 5px; z-index: 91; text-align: right; color: rgba(53,53,53,.502); font-size: 20px; }
 /* 확장 3종: 카드·배지·구분선 간격50 — 토큰 파생 범용. 카드는 부모 칸(#505050)과 구분되게 한 톤 업+테7. */
 .gola-card { background: #5A5A5A; border: 7px solid var(--gola-ink); padding: 16px; color: var(--gola-paper); }
 .gola-badge { display: inline-block; background: var(--gola-paper); color: #000; border: 3px solid var(--gola-ink); font-size: 16px; line-height: 1; padding: 4px 8px; } /* 흰바탕 위 금색 명도대비 1.4라 검정으로, 25→16 (금색은 로그 태그에서만 통함) */
@@ -181,12 +193,22 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 .gola-card .gola-divider { margin: 20px 0; } /* 작은 카드 안에서는 숨통 확보 */
 /* 확장: 셀렉트·여러줄·라디오 — 원본에 실측값이 없어 게임 문법으로 새로 만듦 (확장 표시). */
 .gola-select { display: block; width: 350px; max-width: 100%; height: 50px; background: var(--gola-paper); color: var(--gola-input-ink); border: none; border-radius: 0; font-size: 25px; padding: 0 0 0 10px; outline: none; }
-.gola-select:disabled { background: rgba(200,200,200,.502); }
+.gola-select:disabled { background: rgba(200,200,200,.502); cursor: not-allowed; }
 .gola-textarea { display: block; width: 350px; max-width: 100%; min-height: 100px; background: var(--gola-paper); color: var(--gola-input-ink); border: none; border-radius: 0; font-size: 25px; line-height: 1.4; padding: 10px 0 10px 10px; outline: none; resize: vertical; caret-color: var(--gola-input-ink); }
+.gola-textarea::selection { background: rgba(168,206,255,.75); }
+.gola-textarea::placeholder { color: rgba(50,50,50,.5); font-size: 25px; }
 .gola-radio { -webkit-appearance: none; appearance: none; width: 30px; height: 30px; background: var(--gola-paper); border: none; border-radius: 0; margin: 0; cursor: pointer; vertical-align: middle; flex-shrink: 0; display: inline-grid; place-items: center; }
 .gola-radio::after { content: ""; width: 14px; height: 14px; background: transparent; }
 .gola-radio:checked::after { background: var(--gola-ink); }
 .gola-radio:disabled { background: rgba(200,200,200,.502); cursor: not-allowed; }
-/* 확장: 대사 (BackDoorTextPrinter식: 44px 중앙 타이프+페이드). 쓰는 법은 golaSay(대사, 색). */
-.gola-say { position: fixed; left: 0; right: 0; bottom: 12%; z-index: 70; text-align: center; font-size: 44px; line-height: 1.3; padding: 0 24px; pointer-events: none; opacity: 0; transition: opacity .2s; }
+/* 확장: 대사 (BackDoor 실측: textSize 4→44px·lh 1·이탤릭 skew·흰색 기본·페이드 .2s).
+   구조: 박스(.gola-say, row+wrap 플렉스) > div.gola-say-line(행 래퍼, JS renderOne/playScreen이 생성) > span.gola-bd-slot(고정 피치, JS 인라인 width=spacing×108, 0.4→43.2px) > span.gola-bd-g(글리프, 개별 skew 인라인).
+   '\n'은 새 .gola-say-line div 분리(br 생성 없음). 박스 직계 슬롯·br은 생기지 않음. 기울임은 글리프별 .gola-bd-g 인라인 skew로 일원화(박스 통째 skew 없음).
+   타이핑간격(0.05/레어 0.15)·firstWait(1.0/0.25)·hold(1.7/2/2/2·In Infinity)·사운드·다화면큐는 JS 영역이라 CSS에서 손대지 않음. */
+.gola-say { position: fixed; inset: 0; z-index: 70; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center; align-content: center; text-align: center; font-size: 44px; line-height: 1; color: #FFF; font-style: normal; padding: 0 24px 60px; pointer-events: none; opacity: 0; transition: opacity .2s; } /* 원본 #backdoor inset0 flex 중앙 — padding-bottom 60px으로 중앙보다 30px 위로 (transform은 skew와 겹쳐서 미사용). */
 .gola-say.show { opacity: 1; }
+.gola-say-line { flex: 0 0 100%; max-width: 100%; display: flex; flex-wrap: wrap; justify-content: center; } /* 행 래퍼: 전폭 차지해 '\n' 행을 세로로 적층, 행 내 글자는 중앙 기준 wrap (단일행 렌더 불변). */
+.gola-say-line > .gola-bd-slot { flex: none; } /* 고정 피치 유지 (flex 수축 방지). */
+/* 좁은 화면 0.7 하한은 JS fitSayBox 몫(박스 통째 zoom, scale>=0.7만 적용, 미만은 zoom 원복+wrap).
+   CSS는 행 래퍼 안 wrap(넘치면 감싸기) 그대로 제공. JS는 box의 whiteSpace만 임시 nowrap으로 재고 복원. */
+/* idle Bobbing·color(Fade/Twinkle/Rainbow)·appear/disappear(expand/contract)·Vibration/Wobble은 JS·데모·문서 어디에서도 참조 0건이라 미제공 (필요해지면 그때 추가). */

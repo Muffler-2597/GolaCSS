@@ -3,24 +3,31 @@
 /* .gola-auto/[data-gola] 안에서만 동작, :where라 명시 클래스가 이김. */
 :where(.gola-auto,[data-gola]){color:var(--gola-paper);} /* 맨텍스트 흰색. */
 :where(.gola-auto,[data-gola]) button{width:160px;height:50px;background:var(--gola-paper);color:var(--gola-ink);border:7px solid var(--gola-ink);padding:0;font-size:24px;line-height:1;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:none;} /* 버튼 160x50 흰면 검정테7 24px. */
-:where(.gola-auto,[data-gola]) button:disabled{background:rgba(200,200,200,.502);cursor:not-allowed;transition:background-color .1s linear;} /* 잠김 틴트 (텍스트색 발명 없음). */
+:where(.gola-auto,[data-gola]) button:disabled{background:rgba(200,200,200,.502);opacity:1;cursor:not-allowed;transition:background-color .1s linear;} /* 잠김 틴트 (텍스트색 발명 없음). */
 :where(.gola-auto,[data-gola]) :is(input[type=text],input[type=email],input[type=number],input[type=password],input[type=search],input[type=tel],input[type=url],input:not([type])){display:block;width:350px;max-width:100%;height:50px;background:var(--gola-paper);color:var(--gola-input-ink);border:none;font-size:25px;line-height:50px;text-align:left;padding:0 0 0 10px;outline:none;caret-color:var(--gola-input-ink);} /* 입력란 350x50 (무type 포함). */
 :where(.gola-auto,[data-gola]) :is(input[size="1"],input[size="2"],input[size="3"],input[size="4"],input[size="5"],input[size="6"],input[data-mini]){width:100px;flex-shrink:0;} /* 단축형 100x50 (HEX·RGB값용). */
-:where(.gola-auto,[data-gola]) input::placeholder{color:rgba(50,50,50,.5);font-size:25px;font-style:italic;text-align:center;} /* 힌트 중앙 이탤릭. */
+:where(.gola-auto,[data-gola]) input::placeholder{color:rgba(50,50,50,.5);font-size:25px;text-align:center;} /* 힌트 중앙 (이탤릭 금지, skew만). */
+:where(.gola-auto,[data-gola]) :is(input[type=text],input[type=email],input[type=number],input[type=password],input[type=search],input[type=tel],input[type=url],input:not([type]),textarea,select){user-select:text;} /* 전역 none 무력화: bare 입력계 드래그 선택·복사 허용. */
 :where(.gola-auto,[data-gola]) input[type=checkbox]{-webkit-appearance:none;appearance:none;display:inline-block;width:70px;height:40px;background:var(--gola-off);position:relative;cursor:pointer;flex-shrink:0;margin:0;transition:background-color .15s;vertical-align:middle;} /* 토글 70x40 꺼짐적색 (단일요소 근사). */
 :where(.gola-auto,[data-gola]) input[type=checkbox]::after{content:"";display:block;width:20px;height:30px;background:var(--gola-ink);position:absolute;top:5px;left:7.5px;transition:left .15s;} /* 노브 20x30. */
 :where(.gola-auto,[data-gola]) input[type=checkbox]:checked{background:var(--gola-on);} /* 켜짐 초록. */
 :where(.gola-auto,[data-gola]) input[type=checkbox]:checked::after{left:42.5px;} /* 노브 우이동. */
 :where(.gola-auto,[data-gola]) label{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:24px;} /* 라벨행 공용. */
 :where(.gola-auto,[data-gola]) label:has(input[type=checkbox]){font-size:30px;} /* 토글행 30px (구형은 위 룩으로 폴백). */
-:where(.gola-auto,[data-gola]) input[type=range]{-webkit-appearance:none;appearance:none;flex:none;width:400px;max-width:100%;height:15px;background:var(--gola-track);cursor:pointer;margin:0;} /* 트랙 400x15 (정적, fill 미지원). */
+:where(.gola-auto,[data-gola]) input[type=range]{-webkit-appearance:none;appearance:none;flex:none;width:400px;max-width:100%;height:15px;background:var(--gola-track);cursor:pointer;margin:0;} /* 트랙 400x15 (gola.js가 --p 채움 기록, .enhanced 시 그라데이션). */
 :where(.gola-auto,[data-gola]) input[type=range]::-webkit-slider-runnable-track{height:15px;background:transparent;} /* 트랙 이중칠 방지. */
 :where(.gola-auto,[data-gola]) input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:30px;background:var(--gola-handle);border:none;border-radius:0;margin-top:-7.5px;cursor:pointer;} /* 핸들 20x30 연회색 (가짜요소는 :is합성 불가라 분리). */
 :where(.gola-auto,[data-gola]) input[type=range]::-moz-range-thumb{width:20px;height:30px;background:var(--gola-handle);border:none;border-radius:0;cursor:pointer;} /* 파이어폭스 핸들. */
 :where(.gola-auto,[data-gola]) input[type=range][data-ch=vol]::-webkit-slider-thumb{background:#FFF;} /* vol썸 흰색 (r/g/b는 속성만 통과). */
 :where(.gola-auto,[data-gola]) input[type=range][data-ch=vol]::-moz-range-thumb{background:#FFF;} /* 파이어폭스 vol썸. */
+:where(.gola-auto,[data-gola]) input[type=range]{--fill:#FFF;--p:1;} /* bare 기본 흰색 (볼륨이 기본 케이스, gola.js가 --p 기록). */
+:where(.gola-auto,[data-gola]) input[type=range][data-ch=r]{--fill:#FF0000;} /* 빨강 채널. */
+:where(.gola-auto,[data-gola]) input[type=range][data-ch=g]{--fill:#00FF00;} /* 초록 채널. */
+:where(.gola-auto,[data-gola]) input[type=range][data-ch=b]{--fill:#0000FF;} /* 파랑 채널. */
+:where(.gola-auto,[data-gola]) input[type=range][data-ch=vol]{--fill:#FFF;} /* 볼륨 흰색. */
+:where(.gola-auto,[data-gola]) input[type=range].enhanced{background:linear-gradient(to right,var(--fill) calc(var(--p)*100%),var(--gola-track) calc(var(--p)*100%));} /* JS 채움 표시. */
 :where(.gola-auto,[data-gola]) output{display:inline-block;width:130px;text-align:left;font-size:30px;color:var(--gola-paper);flex-shrink:0;} /* 출력값 (갱신은 oninput 1줄). */
-:where(.gola-auto,[data-gola]) h1{color:var(--gola-paper);font-size:60px;line-height:1.05;text-align:center;margin:0 0 24px;} /* 큰제목 (120px 원본은 과대라 축소). */
+:where(.gola-auto,[data-gola]) h1{color:var(--gola-paper);font-size:120px;line-height:1;text-align:center;margin:0;display:flex;align-items:center;justify-content:center;} /* 큰제목 (.gola-title과 동일). */
 :where(.gola-auto,[data-gola]) h2{color:var(--gola-paper);font-size:30px;line-height:1.05;text-align:center;margin:24px 0;font-style:normal;transform:skewX(-19.29deg);transform-origin:50% 100%;} /* 부분제목 사선 (이탤릭 금지). */
 :where(.gola-auto,[data-gola]) p{color:var(--gola-paper);font-size:20px;line-height:1.6;text-align:center;margin:0 0 12px;} /* 본문 간이판. */
 :where(.gola-auto,[data-gola]) a{color:var(--gola-accent);text-decoration:underline;} /* 링크 주황밑줄. */
@@ -33,13 +40,19 @@
 :where(.gola-auto,[data-gola]) details[open]>summary::before{content:"\25BC";} /* 펼침 ▼. */
 :where(.gola-auto,[data-gola]) details[open]>:not(summary){animation:gola-auto-spread .2s ease-out;} /* 펼침 0.2s (OutQuad 근사). */
 @keyframes gola-auto-spread{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}} /* 접두로 충돌방지. */
-:where(.gola-auto,[data-gola]) summary:active{transform:scale(.98);} /* 누름 경량판. */
-:where(.gola-auto,[data-gola]) :is(button,input,summary):focus-visible{outline:3px solid var(--gola-accent);outline-offset:2px;} /* 키보드 링. */
-@media (prefers-reduced-motion:reduce){:where(.gola-auto,[data-gola]) details[open]>:not(summary){animation:none;}:where(.gola-auto,[data-gola]) summary:active{transform:none;}} /* 모션민감 정지. */
-@media (max-width:600px){:where(.gola-auto,[data-gola]) h1{font-size:40px;}:where(.gola-auto,[data-gola]) summary{font-size:28px;}} /* 좁은 화면 축소. */
-:where(.gola-auto,[data-gola]) .native-scope,:where(.gola-auto,[data-gola]) .native-scope *{all:revert;} /* 대조칸은 진짜 브라우저 기본으로 되돌림 (body 자동태그 때문). */
-:where(.gola-auto,[data-gola]) select{width:350px;max-width:100%;height:50px;background:var(--gola-paper);color:var(--gola-input-ink);border:none;border-radius:0;font-size:25px;padding:0 0 0 10px;outline:none;} /* 셀렉트 확장 매핑. */
-:where(.gola-auto,[data-gola]) textarea{width:350px;max-width:100%;min-height:100px;background:var(--gola-paper);color:var(--gola-input-ink);border:none;border-radius:0;font-size:25px;line-height:1.4;padding:10px 0 10px 10px;outline:none;resize:vertical;} /* 여러줄 확장 매핑. */
+:where(.gola-auto,[data-gola]) :is(button,input,select,textarea,summary):focus-visible{outline:3px solid var(--gola-accent);outline-offset:2px;} /* 키보드 링. */
+@media (prefers-reduced-motion:reduce){:where(.gola-auto,[data-gola]) details[open]>:not(summary){animation:none;}} /* 모션민감 정지. */
+@media (max-width:600px){:where(.gola-auto,[data-gola]) h1{font-size:64px;}:where(.gola-auto,[data-gola]) summary{font-size:28px;}} /* 좁은 화면 축소. */
+:where(.gola-auto,[data-gola]) label:has(input[type=range]){display:grid;grid-template-columns:130px minmax(0,400px) auto;align-items:center;column-gap:20px;text-align:left;} /* 슬라이더행 3열 (라벨130+트랙+출력 좌정렬 고정, 줄 맞춤). */
+:where(.gola-auto,[data-gola]) label:has(input[type=range]) input[type=range]{min-width:0;width:100%;max-width:400px;} /* 좁은 칸 수축용 (원본 트랙 400 유지). */
+:where(.gola-auto,[data-gola]) label:has(>input[type=checkbox]){color:var(--gola-off);} /* 토글행 꺼짐빨강 (.gola-label과 동일). */
+:where(.gola-auto,[data-gola]) label:has(>input[type=checkbox]:checked){color:var(--gola-on);} /* 토글행 켜짐초록. */
+.gola-high-contrast :where(.gola-auto,[data-gola]) label:has(>input[type=checkbox]){color:#FFF;font-weight:700;text-decoration:underline;} /* opt-in 고대비: 미체크 적색 2.02:1 미달 → 흰색 (gola.css .gola-label 대응). */
+.gola-high-contrast :where(.gola-auto,[data-gola]) label:has(>input[type=checkbox]:checked){color:#FFF;font-weight:700;text-decoration:none;} /* 체크 상태는 밑줄 제거로 구분. */
+.gola-high-contrast :where(.gola-auto,[data-gola]) a{color:#FFF;font-weight:700;} /* opt-in 고대비: 주황 링크(#FF8000) → 흰색 (desc와 동일 사유). */
+.gola-auto .native-scope,[data-gola] .native-scope,.gola-auto .native-scope *,[data-gola] .native-scope *{all:revert;} /* 대조칸 되돌림 (:where 0명시도로는 요소규칙에 져서 revert가 안 먹음. 명시도 필수). */
+:where(.gola-auto,[data-gola]) select{display:block;width:350px;max-width:100%;height:50px;background:var(--gola-paper);color:var(--gola-input-ink);border:none;border-radius:0;font-size:25px;text-align:left;padding:0 0 0 10px;outline:none;} /* 셀렉트 확장 매핑. */
+:where(.gola-auto,[data-gola]) textarea{display:block;width:350px;max-width:100%;min-height:100px;background:var(--gola-paper);color:var(--gola-input-ink);border:none;border-radius:0;font-size:25px;line-height:1.4;text-align:left;padding:10px 0 10px 10px;outline:none;resize:vertical;} /* 여러줄 확장 매핑. */
 :where(.gola-auto,[data-gola]) input[type=radio]{-webkit-appearance:none;appearance:none;width:30px;height:30px;background:var(--gola-paper);border:none;border-radius:0;margin:0;cursor:pointer;vertical-align:middle;display:inline-grid;place-items:center;} /* 라디오 확장 매핑. */
 :where(.gola-auto,[data-gola]) input[type=radio]::after{content:"";width:14px;height:14px;background:transparent;} /* 빈칸. */
 :where(.gola-auto,[data-gola]) input[type=radio]:checked::after{background:var(--gola-ink);} /* 선택 검정칸. */

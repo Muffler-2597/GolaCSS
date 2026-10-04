@@ -8,41 +8,45 @@
 <link rel="stylesheet" href="./gola-classless.css">
 <style>
   body{background:#787878;margin:0;padding:0 0 60px;}
-  .menu{background:#505050;padding:24px;max-width:780px;margin:0 auto;}
-  .menu h1{margin-top:8px;}
-  .foot{background:#787878;padding:24px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;max-width:780px;margin:0 auto;}
-  .native-check{background:#FFF;color:#000;padding:24px;max-width:780px;margin:24px auto 0;}
-  .cap{max-width:780px;margin:0 auto;padding:24px 12px 0;color:#FFF;font-size:16px;text-align:center;}
+  main{background:#505050;padding:24px;max-width:780px;margin:0 auto;}
+  main>h1{margin-top:8px;}
+  main>p>input[type=text],main>p>select,main>p>textarea{margin:0 auto;}
+  footer{background:#787878;padding:24px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;max-width:780px;margin:0 auto;}
+  section[data-native]{background:#FFF;color:#000;padding:24px;max-width:780px;margin:24px auto 0;}
+  section[data-native] *{all:revert;}
+  section[data-native] label{all:revert;}
+  p[data-note]{max-width:780px;margin:0 auto;padding:24px 12px 0;color:#FFF;font-size:16px;text-align:center;}
 </style>
 </head>
 <body>
-<div class="menu">
+<main data-gola-vol>
   <h1>설정</h1>
   <h2>-볼륨-</h2>
-  <p><label>마스터 <input type="range" min="0" max="100" value="100" oninput="this.nextElementSibling.textContent=Math.ceil(this.value)+'%'"><output>100%</output></label></p>
-  <p><label>게임 <input type="range" min="0" max="100" value="70" oninput="this.nextElementSibling.textContent=Math.ceil(this.value)+'%'"><output>70%</output></label></p>
+  <p><label>마스터 <input type="range" data-ch="vol" data-label="vM" min="0" max="100" step="1" value="100" aria-label="마스터 볼륨"><output id="vM">100%</output></label></p>
+  <p><label>게임 <input type="range" data-ch="vol" data-label="vG" min="0" max="100" step="1" value="70" aria-label="게임 볼륨"><output id="vG">70%</output></label></p>
+  <p><label>UI <input type="range" data-ch="vol" data-label="vU" min="0" max="100" step="1" value="100" aria-label="UI 볼륨"><output id="vU">100%</output></label></p>
   <h2>-알람-</h2>
-  <p><label><input type="checkbox" checked> 토스트 알람 켬</label></p>
+  <p><label><input type="checkbox" checked data-gola-allow> 토스트 알람 켬</label></p>
   <p><label><input type="checkbox"> 배속 허용</label></p>
   <h2>-닉네임-</h2>
-  <p><input type="text" maxlength="16" placeholder="Minecraft 닉네임 입력..."></p>
-  <p><select><option>클래식</option><option>슬림</option></select></p>
-  <p><textarea rows="2" placeholder="메모"></textarea></p>
+  <p data-gola-nick><input type="text" maxlength="16" placeholder="Minecraft 닉네임 입력..." aria-label="마인크래프트 닉네임"> <button type="button" data-gola-nick-apply>적용</button></p>
+  <p><select aria-label="스킨 유형"><option>클래식</option><option>슬림</option></select></p>
+  <p><textarea rows="2" placeholder="메모" aria-label="메모"></textarea></p>
   <p><label><input type="radio" name="q" checked> 예</label> <label><input type="radio" name="q"> 아니오</label></p>
   <details open>
     <summary>고급 설정</summary>
     <p>접힘 상자는 details 하나로 됩니다.</p>
   </details>
-</div>
-<div class="foot">
+</main>
+<footer>
   <button type="button" data-gola-toast-text="저장됐어요." data-gola-toast-color="gola-toast--gold">저장</button>
   <button type="button" data-gola-say-text="여기가 백도어다." data-gola-say-color="#FFD700">말 걸기</button>
-</div>
-<div class="native-check native-scope">
+</footer>
+<section data-native>
   <h2>아래는 손대면 안 되는 구역 (브라우저 기본이어야 정상)</h2>
   <p><button type="button">밖 버튼</button> <input type="text" placeholder="밖 입력"> <label><input type="checkbox"> 밖 토글</label></p>
-</div>
-<p class="cap">위 전부는 클래스 없이 그냥 태그. 빼고 싶으면 <code>&lt;body data-gola-off&gt;</code>.</p>
+</section>
+<p data-note>위 전부는 클래스 없이 그냥 태그. 빼고 싶으면 <code>&lt;body data-gola-off&gt;</code>.</p>
 <script src="./gola.js"></script>
 </body>
 </html>

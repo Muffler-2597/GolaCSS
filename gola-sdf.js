@@ -54,7 +54,7 @@
   }
 
   function fallback(cv, text, size, color, italic) {
-    var dpr = Math.min(3, Math.max(2, window.devicePixelRatio || 1));
+    var dpr = Math.min(4, Math.max(3, window.devicePixelRatio || 1)); /* 아틀라스 경로와 동일 3~4배 (SPEC '출력보다 항상 크게, 최소 3배') */
     var pad = Math.ceil(size * 0.1);
     var fw = Math.ceil((cv.clientWidth || 300) * dpr);
     if (fw > 8192) fw = 8192; /* 캔버스 정직 한계: 브라우저 최대 비트맵 초과 방지 */
@@ -134,7 +134,7 @@
       big.width = Math.max(1, Math.ceil(L.width / k * SS));
       big.height = Math.max(1, Math.ceil(H / k * SS));
       var bc = big.getContext('2d', { willReadFrequently: true });
-      bc.imageSmoothingEnabled = true; /* 거리값 블릿은 보간 금지: bilinear로 거리장을 흐리면 글자마다 후광 박스가 생김 */
+      bc.imageSmoothingEnabled = true; /* half-texel 블릿은 보간 허용, 축소 합성만 high (거리장 임계 전 블릿 단계라 후광 없음) */
       L.items.forEach(function (it) {
         var g = it.g;
         bc.drawImage(atlasImg,

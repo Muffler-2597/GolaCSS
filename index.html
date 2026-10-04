@@ -41,10 +41,10 @@ body{counter-reset:gsec}
 code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:normal;overflow-wrap:anywhere}
 .gola-modal--inline{min-height:auto} /* 내용은 auto, 420 고수 금지 */
 .vs-col .gola-modal--inline .gola-modal-log{max-height:60vh;overflow-y:auto} /* 페이지 스코프 한정: 36px 전문 909px 벽 방지, gola.css 본체 불변 */
-/* 모달 타이틀 clamp + .gola-modal-head 컨테이너 zoom (TypeGola modal.ts MODAL_BASE_W=800) — 축소는 gola.js golaFitModal */
+/* 좁은 폭 모달은 title에만 zoom + 말줄임 (clamp 없음, TypeGola W/800 균일축소와 다름) — 축소는 gola.js golaFitModal */
 @media(max-width:900px){.gola-modal-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.gola-modal-head .gola-modal-btn.close,.gola-modal-head .gola-modal-btn.prev,.gola-modal-head .gola-modal-btn.next{position:static}}
 @media(max-width:700px){.gola-slider-row:not(.rgb){flex-wrap:wrap;gap:12px}.gola-slider-row .gola-slider{flex:1 1 160px;width:auto;min-width:0}.gola-slider-letter.vol{width:80px;font-size:30px;text-align:right}.gola-vol-val{width:90px;font-size:24px}}
-/* 데모 한정 포커스 표시 (gola.css 재현본에는 링 없음이 원본) */
+/* 데모 한정 파랑 2px 표시 (본체 gola.css는 접근성 포크로 주황 3px 유지) */
 .page .gola-check:focus-visible+.gola-switch,.page .gola-slider:focus-visible,.page .gola-value:focus,.page .gola-hex:focus,.page .gola-input:focus{outline:2px solid #A8CEFF;outline-offset:2px}
 /* 일반 칸: gola 전역 리셋을 중화하고 진짜 브라우저 기본으로 (대조용 한정) */
 .native-scope,.native-scope *{font-family:system-ui,sans-serif!important;user-select:auto!important}
@@ -59,7 +59,7 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 </head>
 <body>
 <div class="page">
-<nav class="nav">
+<nav class="nav" aria-label="섹션 내비게이션">
 <a href="#s-sdf">SDF</a><a href="#s-btn">버튼</a><a href="#s-box">박스</a><a href="#s-restart">재시작</a><a href="#s-toggle">토글</a><a href="#s-img">이미지</a><a href="#s-vol">볼륨</a><a href="#s-rgb">RGB</a><a href="#s-hex">HEX</a><a href="#s-nick">닉네임</a><a href="#s-type">타이포</a><a href="#s-stf">지터</a><a href="#s-toast">토스트</a><a href="#s-say">대사</a><a href="#s-modal">모달</a><a href="#s-panel">패널</a><a href="#s-grid">그리드</a><a href="#s-extra">확장</a><a href="#s-door">문</a>
 </nav>
 
@@ -73,7 +73,7 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 <div class="sec-head" id="s-sdf"><div class="gola-sec-title">-SDF 렌더링-</div>
 <p class="note">아틀라스 실측 SDF 렌더러. <code class="c">canvas</code> 한 줄이면 끝. CSS <code class="c">.gola-sdf</code>는 대체용.</p>
 <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px;flex-wrap:wrap">
-<input type="checkbox" class="gola-check" id="sdfAll" checked>
+<input type="checkbox" class="gola-check" id="sdfAll" checked aria-label="SDF 렌더링 전체 적용">
 <label class="gola-switch" for="sdfAll"><span class="gola-knob"></span></label>
 <span class="gola-label" style="color:#FFF">SDF 렌더링 전체 적용</span>
 </div></div>
@@ -88,17 +88,17 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 </div>
 
 <div class="sec-head" id="s-btn"><div class="gola-sec-title">-버튼-</div>
-<p class="note">160x50 흰면 검정테7 24px. hover·active 변화 없음이 원본.</p></div>
+<p class="note">160x50 흰면 검정테7 24px. hover·active 변화 없음이 원본 (재시작만 hover 틴트 있음).</p></div>
 <div class="vs">
 <div class="vs-col n"><span class="tag n">일반 button</span><div class="native-scope"><button>버전 정보</button> <button>크레딧 보기</button></div></div>
 <div class="vs-col g"><span class="tag g">골라 .gola-btn</span><div data-gola-fit><div>
 <button class="gola-btn" data-gola-modal-open="#liveModal">버전 정보</button> <button class="gola-btn" data-gola-toast-text="CREDIT — Appie" data-gola-toast-color="gola-toast--gold">크레딧 보기</button>
 <button class="gola-btn gola-btn--sm" data-gola-toast-text="작은 버튼이 눌렸습니다." data-gola-toast-color="gola-toast--yellow">작은 버튼</button>
-<button class="gola-btn gola-btn--sm gola-press" data-gola-toast-text="눌림 opt-in: 0.6배 축소 후 0.15s 복원" data-gola-toast-color="gola-toast--yellow">눌림 opt-in</button></div></div></div>
+<button class="gola-btn gola-btn--sm gola-press" data-gola-toast-text="눌림 opt-in: 0.30s 단상 유지" data-gola-toast-color="gola-toast--yellow">눌림 opt-in</button></div></div></div>
 </div>
 
 <div class="sec-head" id="s-box"><div class="gola-sec-title">-스위치박스-</div>
-<p class="note">280x56 테8 32px. 화살표 70x70.</p></div>
+<p class="note">280x56 (원본 350x70의 0.8, TypeGola 계승) 테8 32px. 화살표 70x70.</p></div>
 <div class="vs">
 <div class="vs-col n"><span class="tag n">일반 select</span><div class="native-scope"><select><option>기본</option><option>관성</option><option>뚱뚱남</option></select></div></div>
 <div class="vs-col g"><span class="tag g">골라</span><div data-gola-fit>
@@ -117,12 +117,12 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 </div>
 
 <div class="sec-head" id="s-toggle"><div class="gola-sec-title">-토글-</div>
-<p class="note">70x40 knob 20x30, 0.15s. 문구 교체는 <code class="c">data-gola-text</code> 한 줄.</p></div>
+<p class="note">70x40 knob 20x30, 0.15s. 문구 교체는 <code class="c">data-gola-text</code> 한 줄. 포커스 표시는 데모 한정 파랑 2px, 라이브러리 본체(gola.css)는 주황 3px.</p></div>
 <div class="vs">
 <div class="vs-col n"><span class="tag n">일반 checkbox</span><div class="native-scope"><label><input type="checkbox" checked> 토스트 알람 켬</label><br><label><input type="checkbox"> 배속 허용</label></div></div>
 <div class="vs-col g"><span class="tag g">골라</span><div data-gola-fit><div>
-<div class="gola-toggle-row iface"><input type="checkbox" class="gola-check" id="t1" checked><label class="gola-switch" for="t1"><span class="gola-knob"></span></label><span class="gola-label sdfable" data-gola-text="토스트 알람 켬|토스트 알람 끔" data-gola-for="t1">토스트 알람 켬</span></div>
-<div class="gola-toggle-row iface"><input type="checkbox" class="gola-check" id="t2"><label class="gola-switch gola-switch--skin" for="t2"><span class="gola-knob"></span></label><span class="gola-label gola-label--skin sdfable" data-gola-text="스킨 유형 : 슬림|스킨 유형 : 클래식" data-gola-for="t2">스킨 유형 : 클래식</span></div>
+<div class="gola-toggle-row iface"><input type="checkbox" class="gola-check" id="t1" checked aria-label="토스트 알람"><label class="gola-switch" for="t1"><span class="gola-knob"></span></label><span class="gola-label sdfable" data-gola-text="토스트 알람 켬|토스트 알람 끔" data-gola-for="t1">토스트 알람 켬</span></div>
+<div class="gola-toggle-row iface"><input type="checkbox" class="gola-check" id="t2" aria-label="스킨 유형"><label class="gola-switch gola-switch--skin" for="t2"><span class="gola-knob"></span></label><span class="gola-label gola-label--skin sdfable" data-gola-text="스킨 유형 : 슬림|스킨 유형 : 클래식" data-gola-for="t2">스킨 유형 : 클래식</span></div>
 </div></div></div>
 </div>
 
@@ -131,12 +131,12 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 <div class="vs">
 <div class="vs-col n"><span class="tag n">일반 img 버튼</span><div class="native-scope"><button><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='40'%3E%3Crect width='70' height='40' fill='%2300FF00'/%3E%3C/svg%3E" alt="on" width="70" height="40"></button></div></div>
 <div class="vs-col g"><span class="tag g">골라 .gola-imgtoggle</span><div>
-<div class="gola-toggle-row"><input type="checkbox" class="gola-check" id="t3" checked><label class="gola-imgtoggle" for="t3"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='40'%3E%3Crect width='70' height='40' fill='%2300FF00'/%3E%3C/svg%3E" alt="on"></label></div>
+<div class="gola-toggle-row"><input type="checkbox" class="gola-check" id="t3" checked aria-label="이미지 토글"><label class="gola-imgtoggle" for="t3"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='40'%3E%3Crect width='70' height='40' fill='%2300FF00'/%3E%3C/svg%3E" alt="on"></label></div>
 </div></div>
 </div>
 
 <div class="sec-head" id="s-vol"><div class="gola-sec-title">-볼륨-</div>
-<p class="note">트랙 400x15 흰 핸들. 0~100 연속값, 표기는 CeilToInt+%.</p></div>
+<p class="note">트랙 400x15 흰 핸들. 0~100 정수(step 1), 표기는 CeilToInt+%.</p></div>
 <div class="vs" data-gola-vol>
 <div class="vs-col n"><span class="tag n">일반 range</span><div class="native-scope">마스터 <input type="range" min="0" max="100" step="1" value="100"> 100%</div></div>
 <div class="vs-col g"><span class="tag g">골라</span><div data-gola-fit><div>
@@ -151,9 +151,9 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 <div class="vs" data-gola-rgb>
 <div class="vs-col n"><span class="tag n">일반 color</span><div class="native-scope"><input type="color" value="#ff8000"></div></div>
 <div class="vs-col g"><span class="tag g">골라</span><div data-gola-fit><div>
-<div class="gola-slider-row rgb lead-rgb"><span class="gola-slider-letter" style="color:#FF0000">R</span><input type="range" class="gola-slider" data-ch="r" min="0" max="1" step="0.0001" value="1" aria-label="R 값"><input type="text" class="gola-value" value="1.0" maxlength="6" spellcheck="false" aria-label="R 값"></div>
-<div class="gola-slider-row rgb"><span class="gola-slider-letter" style="color:#00FF00">G</span><input type="range" class="gola-slider" data-ch="g" min="0" max="1" step="0.0001" value="0.5" aria-label="G 값"><input type="text" class="gola-value" value="0.5" maxlength="6" spellcheck="false" aria-label="G 값"></div>
-<div class="gola-slider-row rgb"><span class="gola-slider-letter" style="color:#0000FF">B</span><!-- B 저대비는 R/G 원색 통일상 원본 그대로 둠 --><input type="range" class="gola-slider" data-ch="b" min="0" max="1" step="0.0001" value="0" aria-label="B 값"><input type="text" class="gola-value" value="0" maxlength="6" spellcheck="false" aria-label="B 값"></div>
+<div class="gola-slider-row rgb lead-rgb"><span class="gola-slider-letter" aria-hidden="true" style="color:#FF0000">R</span><input type="range" class="gola-slider" data-ch="r" min="0" max="1" step="0.0001" value="1" aria-label="R 값"><input type="text" class="gola-value" value="1.0" maxlength="6" spellcheck="false" aria-label="R 값"></div>
+<div class="gola-slider-row rgb"><span class="gola-slider-letter" aria-hidden="true" style="color:#00FF00">G</span><input type="range" class="gola-slider" data-ch="g" min="0" max="1" step="0.0001" value="0.5" aria-label="G 값"><input type="text" class="gola-value" value="0.5" maxlength="6" spellcheck="false" aria-label="G 값"></div>
+<div class="gola-slider-row rgb"><span class="gola-slider-letter" aria-hidden="true" style="color:#0000FF">B</span><!-- B 저대비는 R/G 원색 통일상 원본 그대로 둠 + 장식 글리프 aria-hidden (입력에 aria-label='B 값' 있어 SR 경로 보존) --><input type="range" class="gola-slider" data-ch="b" min="0" max="1" step="0.0001" value="0" aria-label="B 값"><input type="text" class="gola-value" value="0" maxlength="6" spellcheck="false" aria-label="B 값"></div>
 <div class="gola-color-preview"></div>
 <div class="gola-hex-row"><span class="gola-hex-label">HEX</span><input type="text" class="gola-hex wide" value="#FF8000" maxlength="9" placeholder="#RRGGBBAA" spellcheck="false" aria-label="HEX 색상"></div>
 </div></div></div>
@@ -202,7 +202,7 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 <div class="vs">
 <div class="vs-col n"><span class="tag n">일반 alert</span><div class="native-scope"><button onclick="alert('토스트 알람 켬')">알림 띄우기</button></div></div>
 <div class="vs-col g"><span class="tag g">골라 — 눌러보세요</span><div>
-<div class="gola-toggle-row iface"><input type="checkbox" class="gola-check" id="allowT" data-gola-allow checked><label class="gola-switch" for="allowT"><span class="gola-knob"></span></label><span class="gola-label" data-gola-text="토스트 알람 켬|토스트 알람 끔" data-gola-for="allowT">토스트 알람 켬</span></div>
+<div class="gola-toggle-row iface"><input type="checkbox" class="gola-check" id="allowT" data-gola-allow checked aria-label="토스트 알람"><label class="gola-switch" for="allowT"><span class="gola-knob"></span></label><span class="gola-label" data-gola-text="토스트 알람 켬|토스트 알람 끔" data-gola-for="allowT">토스트 알람 켬</span></div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
 <button class="gola-btn gola-btn--sm" data-gola-toast-text="[TAB] : 눌러서 메뉴 토글" data-gola-toast-color="gola-toast--yellow">노랑</button>
 <button class="gola-btn gola-btn--sm" data-gola-toast-text="스킨을 불러왔습니다." data-gola-toast-color="gola-toast--gold">골드</button>
@@ -212,21 +212,25 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 </div>
 
 <div class="sec-head" id="s-say"><div class="gola-sec-title">-대사-</div>
-<p class="note">44px 중앙 타이프+페이드. 눌러서 바로 말 걸기.</p></div>
+<p class="note">44px 중앙 타이핑(나타나기 페이드는 data-gola-say-appear opt-in). 눌러서 바로 말 걸기. 큐 버튼은 여러 줄을 순서대로 재생.</p></div>
 <div class="vs">
 <div class="vs-col n"><span class="tag n">일반 alert</span><div class="native-scope"><button onclick="alert('여기가 백도어다.')">말 걸기</button></div></div>
 <div class="vs-col g"><span class="tag g">골라 — 눌러보세요</span><div style="display:flex;gap:10px;flex-wrap:wrap">
 <button class="gola-btn gola-btn--sm" data-gola-say-text="여기가 백도어다." data-gola-say-color="#FFD700">금색 대사</button>
 <button class="gola-btn gola-btn--sm" data-gola-say-text="돌아간 다음에 와라." data-gola-say-color="#fff">흰 대사</button>
+<button class="gola-btn gola-btn--sm" data-gola-say-text="안!" data-gola-say-color="#BC2F2F" title="원본 Rare AppiHi '안' 적갈">빨강 대사</button>
+<button class="gola-btn gola-btn--sm" title="첫만남 4줄 순서대로 (흰·1700/2000/2000/2000ms)" data-gola-say-queue='[{"text":"안녕","color":"#fff","hold":1700},{"text":"BackDoor에 온 걸 환영해.","color":"#fff","hold":2000},{"text":"여기서는 이곳저곳 돌아다닐 수 있어.","color":"#fff","hold":2000},{"text":"시작해 보자.","color":"#fff","hold":2000}]'>4줄 큐</button>
+<button class="gola-btn gola-btn--sm" title="금→흰→빨강 3줄 순서대로 (각 2000ms)" data-gola-say-queue='[{"text":"여기가 백도어다.","color":"#FFD700","hold":2000},{"text":"돌아간 다음에 와라.","color":"#fff","hold":2000},{"text":"안!","color":"#BC2F2F","hold":2000}]'>3색 큐</button>
 </div></div>
 </div>
+<!-- 줄큐는 gola.js [data-gola-say-queue] 단일 경로로 재생 (인라인 shim 없음, {text,color,hold} 스키마). 구 {t,c,h} 별칭도 엔진이 수용. 타이핑 50ms/자 기준 자동 hold 후 다음 화면. -->
 
 <div class="sec-head" id="s-modal"><div class="gola-sec-title">-모달-</div>
 <p class="note">풀스크린 흰+로그 #898989. ×◀▶ 위치까지 원본 그대로.</p></div>
 <div class="vs">
 <div class="vs-col n"><span class="tag n">일반 div</span><div class="native-scope"><div style="background:#fff;color:#000;padding:12px"><b>TypeGolaSimulator</b><div style="background:#898989;color:#fff;padding:8px">로그</div></div></div></div>
 <div class="vs-col g"><span class="tag g">골라</span><div data-gola-fit><div>
-<div class="gola-modal gola-modal--inline" role="presentation">
+<div class="gola-modal gola-modal--inline" role="group" aria-label="버전 정보 외형 견본">
 <div class="gola-modal-head"><div class="gola-modal-title sdfable">TypeGolaSimulator</div><div class="gola-modal-ver">V1.7 (2026/9.22)</div><div class="gola-modal-v-dev">스킨 바꾸는 기능 언제나오여? ㅋㅋ</div><button class="gola-modal-btn close" aria-label="닫기(견본: 첫 페이지로 리셋)">×</button><button class="gola-modal-btn prev" aria-label="이전 로그 페이지">◀</button><button class="gola-modal-btn next" aria-label="다음 로그 페이지">▶</button><script type="application/json" data-gola-log-pages>[{"ver":"V1.6 (2026/9.13)","dev":"뭐이리 많아졌냐","log":"<span style=\"color:#FFD700\">[추가됨]</span><br>- BackDoor 콘텐츠가 추가됩니다!"}]</script></div>
 <div class="gola-modal-log"><span style="color:#FFD700">[추가됨]</span><br>- Minecraft 닉네임으로 스킨을 불러오는 기능을 추가했습니다.<br>- 토글 스위치가 다른 토글 스위치에 종속된 것을 UI에 시각적으로 표시했습니다.<br>- 여러 새로운 조작 방식을 추가했습니다. 목록은 다음과 같습니다.<br>&nbsp;&nbsp;- 팔만<br>&nbsp;&nbsp;- 다리만<br>&nbsp;&nbsp;- 자동<br>&nbsp;&nbsp;- 자동 분노</div>
 <script type="application/json" data-gola-log-pages>["<span style=\"color:#FFD700\">[변경됨]<\/span><br>- 데이터를 불러올 때 토글 스위치 종속을 무시하던 문제를 해결했습니다.<br>- 마우스를 숨기려면 M키를 0.478723초동안 누르고 있어야 합니다.<br>- 일부 UI 메시지가 변경되었습니다.<br>&nbsp;&nbsp;- 토스트 알람 켬<br>&nbsp;&nbsp;- 토스트 알람 끔<br>&nbsp;&nbsp;- 메뉴 토글 안내", "<span style=\"color:#FFD700\">[변경됨]<\/span><br>- '잔상' 조작 방식의 잔상이 현재 스킨으로 바뀝니다.<br>&nbsp;&nbsp;- 두 배 프레임 보간을 적용했습니다.<br>&nbsp;&nbsp;- 잔상이 더 촘촘하게 표시됩니다.<br>- 시작 시 경고 출력이 더욱 넒라울 정도로 빠르게 지나갑니다.<br><span style=\"color:#FFD700\">[기타]<\/span><br>- GitHub 페이지의 CHANGELOG.md는 업데이트하지 않습니다."]</script>
@@ -250,7 +254,7 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 <div class="vs-col n"><span class="tag n">일반 div 나열</span><div class="native-scope"><div>셀 1</div><div>셀 2</div><div>셀 3</div></div></div>
 <div class="vs-col g"><span class="tag g">골라</span><div data-gola-fit><div class="gola-grid">
 <div class="demo-card" data-gola-vol><div class="gola-sec-title">-볼륨-</div><div class="gola-slider-row"><input type="range" class="gola-slider" data-ch="vol" data-label="vGrid" min="0" max="100" step="1" value="80" aria-label="그리드 볼륨"><span class="gola-vol-val" id="vGrid">80%</span></div></div>
-<div class="demo-card"><div class="gola-sec-title">-알람-</div><div class="gola-toggle-row"><input type="checkbox" class="gola-check" id="g1" checked><label class="gola-switch" for="g1"><span class="gola-knob"></span></label><span class="gola-label" data-gola-text="알람 켬|알람 끔" data-gola-for="g1">알람 켬</span></div></div>
+<div class="demo-card"><div class="gola-sec-title">-알람-</div><div class="gola-toggle-row"><input type="checkbox" class="gola-check" id="g1" checked aria-label="알람"><label class="gola-switch" for="g1"><span class="gola-knob"></span></label><span class="gola-label" data-gola-text="알람 켬|알람 끔" data-gola-for="g1">알람 켬</span></div></div>
 <div class="demo-card"><div class="gola-sec-title">-버전-</div><div class="gola-modal-ver">V1.7 (2026/9.22)</div><div style="margin-top:10px"><button class="gola-btn gola-btn--sm" data-gola-modal-open="#liveModal">버전 정보</button></div></div>
 </div></div></div>
 </div>
@@ -261,6 +265,12 @@ code.c{background:#000;color:#FF8000;font-size:12px;padding:0 6px;white-space:no
 <div class="vs-col n"><span class="tag n">일반</span><div class="native-scope"><div style="border:1px solid #888;padding:8px">카드</div><span>[추가됨]</span><hr></div></div>
 <div class="vs-col g"><span class="tag g">골라</span><div>
 <div class="gola-card"><span class="gola-badge">[추가됨]</span><span class="sdfable" style="color:#FFF"> 스킨 불러오기</span><div class="gola-divider">-상세-</div><div class="gola-modal-ver">V1.7 (2026/9.22)</div><div style="margin-top:10px"><button class="gola-btn gola-btn--sm" data-gola-modal-open="#liveModal">버전 정보</button></div></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center">
+<select class="gola-select" aria-label="스킨 유형 선택"><option>클래식</option><option>슬림</option></select>
+<textarea class="gola-textarea" rows="2" placeholder="메모" aria-label="메모"></textarea>
+<label style="color:#FFF;display:flex;gap:8px;align-items:center"><input type="radio" class="gola-radio" name="golaExtraDemo" checked> 예</label>
+<label style="color:#FFF;display:flex;gap:8px;align-items:center"><input type="radio" class="gola-radio" name="golaExtraDemo"> 아니오</label>
+</div>
 </div></div>
 </div>
 
