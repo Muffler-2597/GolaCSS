@@ -143,4 +143,3 @@ Unity 게임 메뉴 UI를 웹에서 그대로 쓰는 키트. 빌드 없음, 의�
 | `gola-sdf.js` | SDF 캔버스 렌더러 + `assets/sdf/` |
 | `index.html` | 개발용 대조실 |
 | `guide.html` | 사용 설명서 |
-| `demo-classless.html` | 클래스리스 미니 메뉴 |
