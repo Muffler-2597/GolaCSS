@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GolaCSS — 쓰는 법</title>
+<link rel="stylesheet" href="./gola.css">
+<style>
+.page{background:#787878;padding:0 0 60px}
+.nav{position:sticky;top:0;z-index:10;background:#000;padding:8px 12px;display:flex;gap:18px;overflow-x:auto;white-space:nowrap;border-bottom:3px solid #FF8000;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{color:#FF8000;font-size:16px;text-decoration:none;flex-shrink:0}
+.nav a:hover{color:#FFF}
+.hero{text-align:center;padding:36px 12px 26px;border-bottom:7px solid #000}
+.hero .gola-title{font-size:clamp(72px,11vw,120px)}
+.snippet{background:#000;color:#FF8000;font-size:15px;padding:14px 16px;margin:14px auto 0;max-width:640px;text-align:left;white-space:pre-wrap;overflow-wrap:anywhere}
+.sec{margin:44px 12px 0;scroll-margin-top:60px}
+.sec .gola-sec-title{justify-content:flex-start;text-align:left}
+.demo{background:#505050;border:5px solid #000;padding:16px;margin:14px 12px 0;overflow-x:auto}
+.demo-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+p.d{color:#FFF;font-size:17px;margin:10px 12px 0;max-width:1000px;border-left:6px solid #FF8000;padding-left:12px}
+table.api{border-collapse:collapse;margin:14px 12px 0;max-width:1000px}
+table.api td,table.api th{border:3px solid #000;padding:8px 12px;font-size:15px;text-align:left;vertical-align:top}
+table.api th{background:#000;color:#FF8000}
+table.api td{background:#505050;color:#FFF}
+table.api code{background:#000;color:#FF8000;padding:0 6px;font-size:13px;white-space:normal;overflow-wrap:anywhere}
+.native-scope,.native-scope *{font-family:system-ui,sans-serif!important;user-select:auto!important}
+</style>
+</head>
+<body>
+<div class="page gola-sdf-all">
+<nav class="nav">
+<a href="#s-start">시작</a><a href="#s-btn">버튼</a><a href="#s-toggle">토글</a><a href="#s-vol">슬라이더</a><a href="#s-input">입력</a><a href="#s-toast">토스트</a><a href="#s-modal">모달</a><a href="#s-sdf">SDF</a><a href="#s-more">복붙</a><a href="#s-api">API</a>
+</nav>
+
+<div class="hero">
+<div class="gola-desc">GolaGolaSimulator UI Kit</div>
+<div data-gola-fit><div class="gola-title"><span class="gola-stf">GolaCSS</span></div></div>
+<div class="gola-desc">게임 메뉴 UI를 그대로 가져다 쓰는 CSS + JS 키트</div>
+</div>
+
+<div class="sec" id="s-start"><div class="gola-sec-title">-시작하기-</div>
+<p class="d">폴더째 복사하고 두 줄만 넣으면 끝. 빌드 없음, 의존성 없음.</p>
+<div class="snippet">&lt;link rel="stylesheet" href="gola.css"&gt;
+&lt;script src="gola.js"&gt;&lt;/script&gt;</div>
+<p class="d">SDF 캔버스 렌더러까지 쓰면 한 줄 추가.</p>
+<div class="snippet">&lt;script src="gola-sdf.js"&gt;&lt;/script&gt;</div>
+<p class="d">클래스 없이 쓰고 싶으면 <span style="background:#000;color:#FF8000;padding:0 6px">gola-classless.css</span>를 뒤에 한 줄 더 연결하세요. 그냥 태그가 게임 모양으로 바뀝니다(이미 기본 적용, 빼려면 <span style="background:#000;color:#FF8000;padding:0 6px">&lt;body data-gola-off&gt;</span>).</p>
+<p class="d">직접 단 .gola-* 클래스가 항상 이기니, 기존 꾸밈과 섞어 써도 깨지지 않아요.</p>
+<p class="d">토스트는 gola.js 그대로라서 <span style="background:#000;color:#FF8000;padding:0 6px">data-gola-toast-text</span>만 달면 됩니다. 추가 JS 없어요.</p>
+<p class="d">복붙 예제는 이 페이지에 다 있어요.</p>
+</div>
+
+<div class="sec" id="s-btn"><div class="gola-sec-title">-버튼-</div>
+<p class="d">눌러도 모양이 안 바뀌는 게 정상. 원본이 그래요.</p>
+<div class="demo"><div class="demo-row">
+<button class="gola-btn" data-gola-modal-open="#gdModal">버전 정보</button>
+<button class="gola-btn gola-btn--sm" data-gola-toast-text="CREDIT — Appie" data-gola-toast-color="gola-toast--gold">크레딧 보기</button>
+<button class="gola-btn gola-btn--apply" data-gola-toast-text="적용됨" data-gola-toast-color="gola-toast--gold">적용</button>
+<button class="gola-restart" data-gola-toast-text="게임을 재시작합니다." data-gola-toast-color="gola-toast--gold">재시작</button>
+</div></div>
+<div class="snippet">&lt;button class="gola-btn"&gt;버전 정보&lt;/button&gt;
+&lt;button class="gola-btn gola-btn--sm"&gt;작은 버튼&lt;/button&gt;
+&lt;button class="gola-btn gola-btn--apply"&gt;적용&lt;/button&gt;
+&lt;button class="gola-restart"&gt;재시작&lt;/button&gt;</div>
+</div>
+
+<div class="sec" id="s-toggle"><div class="gola-sec-title">-토글-</div>
+<p class="d">JS 없이 동작. 문구까지 같이 바뀌게 하려면 <span style="background:#000;color:#FF8000;padding:0 6px">data-gola-text</span> 한 줄.</p>
+<div class="demo">
+<div class="gola-toggle-row iface"><input type="checkbox" class="gola-check" id="g1" checked><label class="gola-switch" for="g1"><span class="gola-knob"></span></label><span class="gola-label" data-gola-text="토스트 알람 켬|토스트 알람 끔" data-gola-for="g1">토스트 알람 켬</span></div>
+<div class="gola-toggle-row iface"><input type="checkbox" class="gola-check" id="g2"><label class="gola-switch gola-switch--skin" for="g2"><span class="gola-knob"></span></label><span class="gola-label gola-label--skin">스킨 유형</span></div>
+</div>
+<div class="snippet">&lt;input type="checkbox" class="gola-check" id="g1" checked&gt;
+&lt;label class="gola-switch" for="g1"&gt;&lt;span class="gola-knob"&gt;&lt;/span&gt;&lt;/label&gt;
+&lt;span class="gola-label" data-gola-text="켬|끔" data-gola-for="g1"&gt;켬&lt;/span&gt;</div>
+</div>
+
+<div class="sec" id="s-vol"><div class="gola-sec-title">-슬라이더-</div>
+<p class="d">채움 표시와 % 표기는 gola.js가 알아서. 범위는 0~100.</p>
+<div class="demo" data-gola-vol>
+<div class="gola-slider-row"><span class="gola-slider-letter vol">마스터</span><input type="range" class="gola-slider" data-ch="vol" data-label="gdM" min="0" max="100" step="1" value="100" aria-label="마스터 볼륨"><span class="gola-vol-val" id="gdM">100%</span></div>
+</div>
+<div class="snippet">&lt;input type="range" class="gola-slider" data-ch="vol" data-label="gdM" min="0" max="100" step="1" value="100"&gt;
+&lt;span class="gola-vol-val" id="gdM"&gt;100%&lt;/span&gt;</div>
+</div>
+
+<div class="sec" id="s-input"><div class="gola-sec-title">-입력-</div>
+<p class="d">값 입력 100px, HEX 110px, 닉네임 350px. HEX는 3/4/6/8자리 (알파 무시), 틀리면 자동으로 복원됨.</p>
+<!-- 아래 3입력은 외형 견본(동기화 없음): 동기화는 data-gola-rgb 스코프 안에서만 동작 -->
+<div class="demo"><div class="demo-row">
+<input type="text" class="gola-value" value="1.0" maxlength="6" spellcheck="false" aria-label="값 입력" title="외형 견본 — 동기화 없음">
+<input type="text" class="gola-hex wide" value="#FF8000" maxlength="9" spellcheck="false" aria-label="HEX 색상" title="외형 견본 — 동기화 없음">
+<input type="text" class="gola-input" maxlength="16" placeholder="Minecraft 닉네임 입력..." spellcheck="false" aria-label="마인크래프트 닉네임">
+</div></div>
+<div class="snippet">&lt;input type="text" class="gola-value" value="1.0"&gt;
+&lt;input type="text" class="gola-hex wide" value="#FF8000"&gt;
+&lt;input type="text" class="gola-input" maxlength="16" placeholder="Minecraft 닉네임 입력..."&gt;</div>
+</div>
+
+<div class="sec" id="s-toast"><div class="gola-sec-title">-토스트-</div>
+<p class="d">버튼에 속성만 달면 진짜 토스트가 뜸. 알람 토글로 일반 토스트를 막을 수 있고, force는 뚫고 나옴.</p>
+<div class="demo">
+<div class="gola-toggle-row iface"><input type="checkbox" class="gola-check" id="gdAllow" data-gola-allow checked><label class="gola-switch" for="gdAllow"><span class="gola-knob"></span></label><span class="gola-label">토스트 알람</span></div>
+<div class="demo-row" style="margin-top:12px">
+<button class="gola-btn gola-btn--sm" data-gola-toast-text="[TAB] : 눌러서 메뉴 토글" data-gola-toast-color="gola-toast--yellow">노랑</button>
+<button class="gola-btn gola-btn--sm" data-gola-toast-text="스킨을 불러왔습니다." data-gola-toast-color="gola-toast--gold">골드</button>
+<button class="gola-btn gola-btn--sm" data-gola-toast-text="닉네임 입력이 없습니다." data-gola-toast-color="gola-toast--red" data-gola-toast-force>빨강</button>
+</div>
+</div>
+<div class="snippet">&lt;button data-gola-toast-text="스킨을 불러왔습니다." data-gola-toast-color="gola-toast--gold"&gt;골드&lt;/button&gt;
+&lt;!-- 직접 호출: golaToast("메시지", "gola-toast--red", true) --&gt;</div>
+</div>
+
+<div class="sec" id="s-modal"><div class="gola-sec-title">-모달-</div>
+<p class="d">풀스크린 흰 모달. ×◀▶ 버튼 위치까지 원본 그대로.</p>
+<div class="demo"><button class="gola-btn" data-gola-modal-open="#gdModal">버전 정보 열기</button></div>
+<div class="snippet">&lt;button data-gola-modal-open="#gdModal"&gt;버전 정보 열기&lt;/button&gt;
+&lt;div class="gola-modal" id="gdModal"&gt;
+  &lt;div class="gola-modal-head"&gt;
+    &lt;div class="gola-modal-title"&gt;TypeGolaSimulator&lt;/div&gt;
+    &lt;div class="gola-modal-ver"&gt;V1.7&lt;/div&gt;
+    &lt;button class="gola-modal-btn close" data-gola-modal-close="#gdModal"&gt;×&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="gola-modal-log"&gt;...&lt;/div&gt;
+&lt;/div&gt;</div>
+</div>
+
+<div class="sec" id="s-sdf"><div class="gola-sec-title">-SDF 텍스트-</div>
+<p class="d">게임과 같은 글자 질감. 아틀라스에서 직접 찍는 캔버스 방식.</p>
+<div class="demo">
+<canvas class="gola-sdfcv" data-text="GolaGola simulating..." data-size="40" data-color="#fff"></canvas>
+<canvas class="gola-sdfcv" data-text="-인터페이스-" data-size="28" data-color="#fff" data-italic></canvas>
+</div>
+<div class="snippet">&lt;canvas class="gola-sdfcv" data-text="GolaGola" data-size="40" data-color="#fff"&gt;&lt;/canvas&gt;</div>
+</div>
+
+<div class="sec" id="s-more"><div class="gola-sec-title">-복붙 모음-</div>
+<p class="d">자주 쓰는 나머지는 여기 다 있어요.</p>
+<div class="snippet">&lt;div class="gola-modal-title"&gt;TypeGolaSimulator&lt;/div&gt;
+&lt;div class="gola-modal-ver"&gt;V1.7 (2026/9.22)&lt;/div&gt;
+&lt;button data-gola-say-text="여기가 백도어다." data-gola-say-color="#FFD700"&gt;말 걸기&lt;/button&gt;
+&lt;div class="gola-grid"&gt;&lt;div class="gola-card"&gt;셀&lt;/div&gt;&lt;/div&gt;
+&lt;button class="gola-door" style="background-image:url('./assets/that-door.png')"&gt;&lt;/button&gt;
+&lt;select class="gola-select"&gt;&lt;option&gt;클래식&lt;/option&gt;&lt;/select&gt;
+&lt;label&gt;&lt;input type="radio" class="gola-radio" name="q" checked&gt; 예&lt;/label&gt;</div>
+</div>
+
+<div class="sec" id="s-api"><div class="gola-sec-title">-API-</div>
+<table class="api">
+<tr><th>호출</th><th>설명</th></tr>
+<tr><td><code>golaToast(메시지, 색, force)</code></td><td>토스트를 띄움. 색은 gola-toast--yellow / gold / red. force가 참이면 알람 꺼짐 상태에서도 표시.</td></tr>
+<tr><td><code>golaSDF.render(canvas, {text, size, color})</code></td><td>캔버스에 SDF 텍스트를 그림. data-* 속성으로도 자동 초기화됨.</td></tr>
+<tr><td><code>data-gola-fit</code></td><td>감싼 요소가 부모폭을 넘으면 자동으로 축소.</td></tr>
+<tr><td><code>data-gola-text="켬|끔"</code></td><td>토글과 연결된 라벨 문구를 상태에 따라 교체.</td></tr>
+<tr><td><code>.gola-stf--jiggle</code></td><td>붙이면 뚝딱거리는 지터 애니메이션. 기본은 정지.</td></tr>
+</table>
+</div>
+
+<div class="gola-footer" style="margin-top:44px">
+<button class="gola-btn" data-gola-modal-open="#gdModal">버전 정보</button>
+<button class="gola-btn" data-gola-toast-text="CREDIT — Appie" data-gola-toast-color="gola-toast--gold">크레딧 보기</button>
+</div>
+
+</div>
+<div class="gola-toasts" id="golaToasts" role="status" aria-live="polite"></div>
+<div class="gola-modal" id="gdModal" role="dialog" aria-modal="true" aria-label="TypeGolaSimulator 버전 정보">
+<div class="gola-modal-head"><div class="gola-modal-title">TypeGolaSimulator</div><div class="gola-modal-ver">V1.7 (2026/9.22)</div><button class="gola-modal-btn close" data-gola-modal-close="#gdModal">×</button></div>
+<div class="gola-modal-log"><span style="color:#FFD700">[추가됨]</span><br>- Minecraft 닉네임으로 스킨을 불러오는 기능을 추가했습니다.</div>
+</div>
+<script src="./gola.js"></script>
+<script src="./gola-sdf.js"></script>
+</body>
+</html>

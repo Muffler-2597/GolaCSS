@@ -1,0 +1,7 @@
+== sdf-metrics.json (617 glyphs) ==
+peak histogram(bucket/16): [(0, 1), (10, 2), (11, 7), (12, 64), (13, 525), (14, 16), (15, 2)]
+peak<128: 1
+LOW '\r' peak=0 24x24
+== sdf-metrics-italic.json (86 glyphs) ==
+peak histogram(bucket/16): [(10, 1), (11, 1), (12, 2), (13, 72), (14, 10)]
+peak<128: 0
