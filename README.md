@@ -5,6 +5,15 @@
 [GolaGolaSimulator](https://github.com/Appie-1019/GolaGolaSimulator)라는 Unity 게임 메뉴 UI를 웹에서 그대로 쓰는 키트. 빌드 없음, 의존성 없음.
 당신의 웹 페이지를 더 빵탕하게 만들어 봐요!
 
+다운 없이 링크만 (CDN, 폰트·아틀라스까지 따라옴):
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Muffler-2597/GolaCSS@v1.0.0/gola.css">
+<script src="https://cdn.jsdelivr.net/gh/Muffler-2597/GolaCSS@v1.0.0/gola.js"></script>
+```
+
+파일로 쓸 땐:
+
 ```html
 <link rel="stylesheet" href="gola.css">
 <script src="gola.js"></script>
