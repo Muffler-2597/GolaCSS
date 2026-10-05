@@ -81,7 +81,7 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 /* 입력란 100x50 흰면 25px 좌측 — RGB값·HEX 공용 @f3535eb. */
 .gola-value, .gola-hex { display: block; width: 100px; height: 50px; background: var(--gola-paper); color: var(--gola-input-ink); border: none; font-size: 25px; line-height: 50px; text-align: left; padding: 0 0 0 10px; outline: none; flex-shrink: 0; caret-color: var(--gola-input-ink); }
 .gola-value::selection, .gola-hex::selection, .gola-input::selection { background: rgba(168,206,255,.75); }
-.gola-value::placeholder, .gola-hex::placeholder { color: rgba(50,50,50,.5); font-size: 25px; }
+.gola-value::placeholder, .gola-hex::placeholder { color: rgba(50,50,50,.5); font-size: 25px; font-style: italic; }
 .gola-value:focus:not(:focus-visible), .gola-hex:focus:not(:focus-visible), .gola-input:focus:not(:focus-visible) { outline: none; } /* 마우스 포커스만 링 제거, 키보드는 위 :focus-visible 링 유지. */
 .gola-hex.wide { width: 110px; }
 .gola-color-preview { max-width: 660px; height: 40px; background: #FFF; border: 5px solid #000; margin: 10px auto 20px; }
@@ -89,7 +89,7 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 .gola-hex-label { color: var(--gola-paper); font-size: 50px; line-height: 1; width: 90px; height: 50px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 /* 닉네임란 350x50 힌트중 — Main Nickname input Limit16 SingleLine @f3535eb. */
 .gola-input { display: block; width: 350px; max-width: 100%; height: 50px; background: var(--gola-paper); color: var(--gola-input-ink); border: none; font-size: 25px; line-height: 50px; text-align: left; padding: 0 0 0 10px; outline: none; caret-color: var(--gola-input-ink); }
-.gola-input::placeholder { color: rgba(50,50,50,.5); font-size: 25px; text-align: center; }
+.gola-input::placeholder { color: rgba(50,50,50,.5); font-size: 25px; font-style: italic; text-align: center; }
 /* 타이포: 이탤릭 금지 skewX(-19.29deg)만 — TMP italicStyle 35 전단 @f3535eb. */
 .gola-sec-title, .gola-skew { font-style: normal; transform: var(--skew); transform-origin: 50% 100%; }
 .gola-title { color: var(--gola-paper); font-size: 120px; line-height: 1; text-align: center; display: flex; align-items: center; justify-content: center; }
@@ -196,7 +196,7 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 .gola-select:disabled { background: rgba(200,200,200,.502); cursor: not-allowed; }
 .gola-textarea { display: block; width: 350px; max-width: 100%; min-height: 100px; background: var(--gola-paper); color: var(--gola-input-ink); border: none; border-radius: 0; font-size: 25px; line-height: 1.4; padding: 10px 0 10px 10px; outline: none; resize: vertical; caret-color: var(--gola-input-ink); }
 .gola-textarea::selection { background: rgba(168,206,255,.75); }
-.gola-textarea::placeholder { color: rgba(50,50,50,.5); font-size: 25px; }
+.gola-textarea::placeholder { color: rgba(50,50,50,.5); font-size: 25px; font-style: italic; }
 .gola-radio { -webkit-appearance: none; appearance: none; width: 30px; height: 30px; background: var(--gola-paper); border: none; border-radius: 0; margin: 0; cursor: pointer; vertical-align: middle; flex-shrink: 0; display: inline-grid; place-items: center; }
 .gola-radio::after { content: ""; width: 14px; height: 14px; background: transparent; }
 .gola-radio:checked::after { background: var(--gola-ink); }
