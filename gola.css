@@ -12,7 +12,7 @@ html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grays
 /* 버튼 160x50 검정테7 흰면 24px — Main Version/Credit @f3535eb, Transition None이라 active·hover 변화 없음. */
 .gola-btn { width: 160px; height: 50px; background: var(--gola-paper); color: var(--gola-ink); border: 7px solid var(--gola-ink); padding: 0; font-size: 24px; line-height: 1; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: none; }
 .gola-btn--sm { width: 120px; height: 40px; border-width: 5px; font-size: 20px; }
-.gola-btn--apply { width: 100px; height: 40px; font-size: 24px; } /* Skin 적용 버튼 (Transition None) */
+.gola-btn--apply { width: 100px; height: 40px; font-size: 24px; border: none; color: var(--gola-input-ink); } /* Skin 적용 버튼: 흰 외단층, 테두리 없음 (원본 SkinApplyButton) */
 .gola-btn:disabled, .gola-modal-btn:disabled, .gola-restart:disabled { background: rgba(200,200,200,.502); opacity: 1; cursor: not-allowed; transition: background-color .1s linear; } /* Main.unity m_DisabledColor=(0.7843,0.7843,0.7843,0.502) 배경 틴트만 — 텍스트색 rgba(50,50,50,.85) 발명 삭제, m_FadeDuration 0.1 복원 */
 /* 누름효과 opt-in: 원본 ButonPressAnimation 부착 0건 데드코드라 기본 미적용, 쓸 때만 .gola-press (+gola.js가 클릭 시 .gola-pressed 토글). */
 .gola-press { transition: transform .15s ease-out; }
