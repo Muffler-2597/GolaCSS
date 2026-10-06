@@ -110,8 +110,6 @@
 
 ![실시간 모달](shots/modal-live.png)
 
-![SDF](shots/s-sdf.png)
-
 ```html
 <canvas class="gola-sdfcv" data-text="GolaGola" data-size="40" data-color="#fff"></canvas>
 ```
