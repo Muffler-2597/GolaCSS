@@ -44,7 +44,7 @@
 ```html
 <input type="checkbox" class="gola-check" id="g1" checked aria-label="토스트 알람">
 <label class="gola-switch" for="g1"><span class="gola-knob"></span></label>
-<span class="gola-label" data-gola-text="켬|끔" data-gola-for="g1">켬</span>
+<span class="gola-label" data-gola-text="토스트 알람 켜짐|토스트 알람 꺼짐" data-gola-for="g1">토스트 알람 켜짐</span>
 ```
 
 ![볼륨](shots/s-vol.png)
@@ -100,7 +100,7 @@
 <button data-gola-modal-open="#gdModal">버전 정보 열기</button>
 <div class="gola-modal" id="gdModal">
   <div class="gola-modal-head">
-    <div class="gola-modal-title">TypeGolaSimulator</div>
+    <div class="gola-modal-title">GolaGolaSimulator</div>
     <div class="gola-modal-ver">V1.7 (2026/9.22)</div>
     <button class="gola-modal-btn close" data-gola-modal-close="#gdModal">×</button>
   </div>

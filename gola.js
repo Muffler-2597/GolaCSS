@@ -129,13 +129,28 @@
     sync();
   });
 
+  /* 알람 토글 토스트: InterfaceSetting.ToastMessageEnable 근사 — 켜면 노랑 "토스트 메시지 켜짐", 끄면 노랑 "토스트 메시지 꺼짐".
+     원본은 끄기 시 플래그 뒤집기 전 발화로 꺼짐 토스트를 표시, 여긴 change 시점엔 이미 해제라 force로 동등 재현. 초기엔 침묵 (원본 StartAct 1프레임 후 리스너). 라벨(알람)과 토스트(메시지) 문구 비대칭이 V1.7 원본대로. */
+  document.querySelectorAll('[data-gola-allow]').forEach(function (allow) {
+    allow.addEventListener('change', function () {
+      if (allow.checked) golaToast('토스트 메시지 켜짐', 'gola-toast--yellow');
+      else golaToast('토스트 메시지 꺼짐', 'gola-toast--yellow', true);
+    });
+  });
+
   /* 데모 배선: [data-gola-modal-open/close] -> 모달 열고닫기 (열 때 포커스 이동·닫을 때 반환) */
+  function syncBodyLock() { /* 실모달 열림 동안 페이지 스크롤 잠금 (원본 캔버스 고정 재현 + fixed 버튼 15px 어긋남 방지). html+body 둘 다 (html만으론 뷰포트 스크롤바 잔류) */
+    var lock = document.querySelector('.gola-modal.open:not(.gola-modal--inline)') ? 'hidden' : '';
+    document.documentElement.style.overflow = lock;
+    document.body.style.overflow = lock;
+  }
   document.querySelectorAll('[data-gola-modal-open]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var m = document.querySelector(btn.getAttribute('data-gola-modal-open'));
       if (!m) return;
       m._golaOpener = btn;
       m.classList.add('open');
+      syncBodyLock();
       golaFitModal(); /* 열린 뒤 실측 zoom (display:none 상태에선 측정 불가) */
       var f = null; /* 초기 포커스는 트랩 목록 첫 요소 (닫기 버튼 고정 점프 정정) */
       var fl = m.querySelectorAll('a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])');
@@ -151,6 +166,7 @@
       if (!m) return;
       m.classList.remove('open');
       if (m._golaOpener && m._golaOpener.focus) m._golaOpener.focus();
+      syncBodyLock();
     });
   });
   /* Esc로 닫기 + 포커스 트랩 (fixed .gola-modal 한정, 인라인 견본 제외) */
@@ -160,6 +176,7 @@
         m.classList.remove('open');
         if (m._golaOpener && m._golaOpener.focus) m._golaOpener.focus();
       });
+      syncBodyLock();
     }
     if (e.key === 'Tab') {
       var m = document.querySelector('.gola-modal.open:not(.gola-modal--inline)');
@@ -758,7 +775,7 @@
 
   /* 스위치박스 ◀▶ 모드 순환: data-gola-cycle="-1|1" + data-gola-modes="a,b,c" (원본 Prev/Next stretch).
      GOLA_MODES/#t3 하드코딩은 하위호환 기본값으로 유지, 일반 페이지는 data 속성으로 덮어쓰기. */
-  var GOLA_MODES = ['기본', '관성', '뚱뚱남'];
+  var GOLA_MODES = ['기본', '관성', '부드럽게', '회전', '반전', '애피 슬라이드', '발작', '동상', '추적', '나이스한 컴퓨터', '뚱뚱남', '잔상', '팔만', '다리만', '자동', '자동 분노']; /* Main.unity DisplayName 16종 씬 순서 @f3535eb (V1.7 팔만~자동 분노 포함) */
   window.GOLA_MODES = window.GOLA_MODES || GOLA_MODES;
   document.querySelectorAll('[data-gola-cycle]').forEach(function (btn) {
     btn.addEventListener('click', function () {
