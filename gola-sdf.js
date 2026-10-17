@@ -3,7 +3,7 @@
    같은 베이스라인(TMP 0.85em), 같은 half-texel inset, 같은 SPACE 0.5em.
    쓰는 법: <canvas class="gola-sdfcv" data-text="GolaGola" data-size="44" data-color="#fff"></canvas>
    속성: data-size(px) data-color(css색) data-italic(있으면 이탤릭 아틀라스) data-base(에셋 경로, 기본 ./assets/sdf/).
-   data-bg(css색)+data-bg-pad(px, 기본 4): 글자 잉크 박스를 감싸는 배경 (캔버스 네모통이 아니라 텍스트 밀착형).
+   배경 없음 (완전 투명). 어두운 글자는 밝은 부모 위에 두는 쪽에서 해결.
    아틀라스 로드 실패 시 D2Coding fillText로 대체 (CSS .gola-sdf와 동급). */
 (function () {
   'use strict';
@@ -54,7 +54,7 @@
     return { items: items, width: pen, missing: missing };
   }
 
-  function fallback(cv, text, size, color, italic, bg, bgPad) {
+  function fallback(cv, text, size, color, italic) {
     var dpr = Math.min(4, Math.max(3, window.devicePixelRatio || 1)); /* 아틀라스 경로와 동일 3~4배 (SPEC '출력보다 항상 크게, 최소 3배') */
     var pad = Math.ceil(size * 0.1);
     var fw = Math.ceil((cv.clientWidth || 300) * dpr);
@@ -68,13 +68,6 @@
     if (italic) c.transform(1, 0, Math.tan(-19.29 * Math.PI / 180), 1, 0, 0); /* data-italic 캔버스와 맞춤: skewX(-19.29deg), 이탤릭 폰트 아님 */
     c.font = size + 'px D2Coding, monospace';
     c.textBaseline = 'alphabetic';
-    var bgt = bg ? parseColor(bg) : null;
-    if (bgt && text) { /* 밀착 배경 (fallback): 측정폭+여백만 칠함 */
-      var bp = Math.max(0, parseFloat(bgPad) || 4);
-      var tw = c.measureText(text).width;
-      c.fillStyle = 'rgb(' + bgt[0] + ',' + bgt[1] + ',' + bgt[2] + ')';
-      c.fillRect(pad - bp, size * TOP_TO_BASELINE_EM - size - bp, tw + bp * 2, size + bp * 2);
-    }
     c.fillStyle = color; /* 원본 CSS 색 문자열 그대로 — 브라우저가 rgb()/named 전부 해석, 침묵 흰색대체 없음 */
     c.fillText(text, pad, size * TOP_TO_BASELINE_EM);
     cv.dataset.golaSdfPath = 'fallback';
@@ -118,25 +111,22 @@
     var color = opts.color || '#fff';
     var italic = !!opts.italic;
     var base = opts.base || defaultBase();
-    var bg = opts.bg ? parseColor(opts.bg) : null;
-    var bgPad = Math.max(0, parseFloat(opts.bgPad) || 4); /* 밀착 배경 여백 (CSS px) */
     loadPair(base).then(function (A) {
       var data = A && (italic && A.dataIt ? A.dataIt : A.data);
       var atlasImg = A && (italic && A.imgIt ? A.imgIt : A.img);
-      if (!data || !atlasImg) { fallback(cv, text, size, color, italic, opts.bg, opts.bgPad); queueSettle(); return; } /* 아틀라스 없음 → D2Coding fallback + fit 재측정 */
+      if (!data || !atlasImg) { fallback(cv, text, size, color, italic); queueSettle(); return; } /* 아틀라스 없음 → D2Coding fallback + fit 재측정 */
       var tint = parseColor(color);
-      if (!tint) { fallback(cv, text, size, color, italic, opts.bg, opts.bgPad); queueSettle(); return; } /* 해석불가 색은 원본색 유지 fallback, 흰색 붕괴 금지 + fit 재측정 */
+      if (!tint) { fallback(cv, text, size, color, italic); queueSettle(); return; } /* 해석불가 색은 원본색 유지 fallback, 흰색 붕괴 금지 + fit 재측정 */
       var L = layoutLine(text, data, size);
       var dpr = Math.min(4, Math.max(3, window.devicePixelRatio || 1)); /* 항상 3배 이상: 어떤 줌아웃 합성에도 얇은 선 보존 */
       cv.dataset.golaSdfPath = 'atlas';
       var asc = size * TOP_TO_BASELINE_EM;
       var H = Math.ceil(size * LINE_HEIGHT_EM);
-      var padDev = (bg && L.items.length) ? bgPad * dpr : 0; /* 배경은 잉크 박스+여백만큼 캔버스 확장 (잘림 없음) */
       var off = document.createElement('canvas');
-      var ow = Math.ceil(L.width * dpr + padDev * 2);
+      var ow = Math.ceil(L.width * dpr);
       if (ow > 8192) ow = 8192; /* 캔버스 정직 한계: 초장문은 잘림 (잘못된 full-width 렌더 금지) */
       off.width = Math.max(1, ow);
-      off.height = Math.ceil(H * dpr + padDev * 2);
+      off.height = Math.ceil(H * dpr);
       var k = size / data.px;
       var SS = Math.max(2, Math.ceil(k * dpr)); /* 적응형: 출력보다 항상 크게 찍어야 얇은 획이 안 끊김 (작은 글씨·저DPR은 2배, 큰 글씨·고DPR은 그 이상) */
       if (L.width / k * SS > 8192) SS = Math.max(1, Math.floor(8192 / (L.width / k))); /* 초장문 상한 */
@@ -157,7 +147,6 @@
       var GAMMA = 0.7; /* SOFT_LOOK 감마 리프트 */
       var id = bc.getImageData(0, 0, big.width, big.height);
       var px = id.data;
-      var ink = padDev > 0 ? { x0: big.width, y0: big.height, x1: -1, y1: -1 } : null; /* 배경용 잉크 박스 (big 좌표) */
       for (var p = 0; p < px.length; p += 4) {
         var d = px[p] / 255;
         var a = (d - 0.46) / (2 * SOFT) + 0.5; /* Unity Bold 가중치 dilate 재현 (bias 0.5→0.46, 속선 살림) */
@@ -165,26 +154,13 @@
         a = Math.pow(a, GAMMA);
         px[p] = tint[0]; px[p + 1] = tint[1]; px[p + 2] = tint[2];
         px[p + 3] = Math.round(a * 255);
-        if (ink && a > 0.02) {
-          var pi = p >> 2, ix = pi % big.width, iy = (pi / big.width) | 0;
-          if (ix < ink.x0) ink.x0 = ix;
-          if (iy < ink.y0) ink.y0 = iy;
-          if (ix > ink.x1) ink.x1 = ix;
-          if (iy > ink.y1) ink.y1 = iy;
-        }
       }
       bc.putImageData(id, 0, 0);
       var c = off.getContext('2d');
       c.imageSmoothingEnabled = true;
       c.imageSmoothingQuality = 'high';
       c.clearRect(0, 0, off.width, off.height);
-      if (ink && ink.x1 >= ink.x0) { /* 글자 밀착 배경: 잉크 박스+여백만 칠함 (바깥 투명 유지) */
-        var sx = (off.width - padDev * 2) / big.width, sy = (off.height - padDev * 2) / big.height;
-        c.fillStyle = 'rgb(' + bg[0] + ',' + bg[1] + ',' + bg[2] + ')';
-        c.fillRect(Math.max(0, Math.floor(ink.x0 * sx)), Math.max(0, Math.floor(ink.y0 * sy)),
-          Math.ceil((ink.x1 - ink.x0 + 1) * sx) + padDev * 2, Math.ceil((ink.y1 - ink.y0 + 1) * sy) + padDev * 2);
-      }
-      c.drawImage(big, 0, 0, big.width, big.height, padDev, padDev, off.width - padDev * 2, off.height - padDev * 2);
+      c.drawImage(big, 0, 0, big.width, big.height, 0, 0, off.width, off.height);
       cv.width = off.width;
       cv.height = off.height;
       cv.style.width = (off.width / dpr) + 'px';
@@ -198,7 +174,7 @@
       cv.setAttribute('role', 'img');
       cv.setAttribute('aria-label', text);
       queueSettle();
-    }).catch(function () { fallback(cv, text, size, color, italic, opts.bg, opts.bgPad); queueSettle(); });
+    }).catch(function () { fallback(cv, text, size, color, italic); queueSettle(); });
   }
 
   function refreshAll() {
@@ -231,8 +207,6 @@
         color: cv.getAttribute('data-color') || '#fff',
         italic: cv.hasAttribute('data-italic'),
         base: cv.getAttribute('data-base') || undefined,
-        bg: cv.getAttribute('data-bg') || undefined,
-        bgPad: cv.getAttribute('data-bg-pad') || undefined,
       });
     });
   }

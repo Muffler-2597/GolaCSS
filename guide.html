@@ -156,11 +156,8 @@ golaSay([{text:"첫 줄",color:"#fff",hold:2200},{text:"둘째 줄",color:"#FFD7
 <div class="demo">
 <div><canvas class="gola-sdfcv" data-text="GolaGola simulating..." data-size="40" data-color="#fff" role="img" aria-label="GolaGola simulating..."></canvas></div>
 <div><canvas class="gola-sdfcv" data-text="-인터페이스-" data-size="28" data-color="#fff" data-italic role="img" aria-label="-인터페이스-"></canvas></div>
-<div><canvas class="gola-sdfcv" data-text="GolaGolaSimulator V1.7" data-size="32" data-color="#000" data-bg="#FFF" data-bg-pad="6" role="img" aria-label="GolaGolaSimulator V1.7"></canvas></div>
 </div>
-<div class="snippet">&lt;canvas class="gola-sdfcv" data-text="GolaGola" data-size="40" data-color="#fff"&gt;&lt;/canvas&gt;
-&lt;!-- 글자 밀착 배경 (검은 글자 데모용): --&gt;
-&lt;canvas class="gola-sdfcv" data-text="GolaGola" data-size="40" data-color="#000" data-bg="#FFF" data-bg-pad="6"&gt;&lt;/canvas&gt;</div>
+<div class="snippet">&lt;canvas class="gola-sdfcv" data-text="GolaGola" data-size="40" data-color="#fff"&gt;&lt;/canvas&gt;</div>
 </div>
 
 <div class="sec" id="s-more"><div class="gola-sec-title">-복붙 모음-</div>
@@ -194,7 +191,6 @@ golaSay([{text:"첫 줄",color:"#fff",hold:2200},{text:"둘째 줄",color:"#FFD7
 <tr><td><code>&lt;label&gt;로 감싸기</code></td><td>라벨 한 줄 행. 토글 들어간 행은 30px, 일반 행은 24px. 문구 교체는 data-gola-text="토스트 알람 켜짐|토스트 알람 꺼짐".</td></tr>
 <tr><td><code>.gola-grid</code></td><td>카드 나열. repeat(auto-fit, minmax(280px, 1fr)), gap 16px.</td></tr>
 <tr><td><code>golaSDF.render(canvas, {text, size, color})</code></td><td>캔버스에 SDF 텍스트를 그림. data-* 속성으로도 자동 초기화됨.</td></tr>
-<tr><td><code>data-bg="#FFF" data-bg-pad="6"</code></td><td>글자 잉크 박스를 감싸는 배경 (캔버스 네모통 전체가 아니라 텍스트 밀착형, 바깥 투명 유지). 여백 기본 4px.</td></tr>
 <tr><td><code>data-gola-fit</code></td><td>감싼 요소가 부모폭을 넘으면 자동으로 축소.</td></tr>
 <tr><td><code>data-gola-text="토스트 알람 켜짐|토스트 알람 꺼짐"</code></td><td>토글과 연결된 라벨 문구를 상태에 따라 교체.</td></tr>
 <tr><td><code>.gola-stf--jiggle</code></td><td>붙이면 뚝딱거리는 지터 애니메이션. 기본은 정지.</td></tr>
