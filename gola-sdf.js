@@ -38,20 +38,31 @@
     return cache[base];
   }
 
-  /* layout.ts layoutLine 그대로: pen 전진, space 0.5em, missing은 space 취급 */
+  /* layout.ts layoutLine 그대로: pen 전진, space 0.5em, missing은 실측 어드밴스 + fillText 보충 목록 */
+  var measureCtx = null;
   function layoutLine(text, data, sizePx) {
     var k = sizePx / data.px;
     var items = [];
+    var missed = [];
     var pen = 0;
     var missing = 0;
     for (var ch of text) {
       if (ch === ' ') { pen += sizePx * SPACE_EM; continue; }
       var g = data.glyphs[ch];
-      if (!g) { pen += sizePx * SPACE_EM; missing++; continue; }
+      if (!g) {
+        var w = sizePx * SPACE_EM;
+        try { /* 자모는 전각(1em)이라 고정 0.5em이면 겹침. 실측 우선, 실패하면 0.5em */
+          if (!measureCtx) measureCtx = document.createElement('canvas').getContext('2d');
+          measureCtx.font = sizePx + 'px D2Coding, monospace';
+          w = measureCtx.measureText(ch).width || w;
+        } catch (e) { /* 무시하고 0.5em */ }
+        missed.push({ ch: ch, x: pen });
+        pen += w; missing++; continue;
+      }
       items.push({ g: g, x: pen + g.ox * k, k: k });
       pen += g.adv * k;
     }
-    return { items: items, width: pen, missing: missing };
+    return { items: items, missed: missed, width: pen, missing: missing };
   }
 
   function fallback(cv, text, size, color, italic) {
@@ -161,6 +172,25 @@
       c.imageSmoothingQuality = 'high';
       c.clearRect(0, 0, off.width, off.height);
       c.drawImage(big, 0, 0, big.width, big.height, 0, 0, off.width, off.height);
+      if (L.missed.length) { /* 아틀라스 미수록(자모·특수기호)은 D2Coding fillText로 보충. 빈칸 방치 대신 (위치: pen+베이스라인, 어드밴스 실측) */
+        c.save();
+        c.font = (size * dpr) + 'px D2Coding, monospace';
+        c.textBaseline = 'alphabetic';
+        c.fillStyle = 'rgb(' + tint[0] + ',' + tint[1] + ',' + tint[2] + ')';
+        c.shadowColor = 'rgb(' + tint[0] + ',' + tint[1] + ',' + tint[2] + ')';
+        c.shadowBlur = Math.max(1, size * dpr * 0.03); /* SDF 소프트 엣지 근사 (딱딱한 ClearType와 이질감 완화) */
+        L.missed.forEach(function (m) {
+          if (italic) {
+            c.save();
+            c.transform(1, 0, Math.tan(-19.29 * Math.PI / 180), 1, m.x * dpr, asc * dpr);
+            c.fillText(m.ch, 0, 0);
+            c.restore();
+          } else {
+            c.fillText(m.ch, m.x * dpr, asc * dpr);
+          }
+        });
+        c.restore();
+      }
       cv.width = off.width;
       cv.height = off.height;
       cv.style.width = (off.width / dpr) + 'px';
@@ -224,6 +254,10 @@
       refreshAll();
     }, 200);
   });
+  /* 웹폰트 도착 후 1회 리렌더 (누락 글자 fillText 보충이 D2Coding으로 찍히도록) */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { refreshAll(); });
+  }
   /* DPR 변경(브라우저 줌·모니터 이동) 감시 */
   function watchDpr() {
     try {
